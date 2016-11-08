@@ -12,6 +12,9 @@ var private = require('./routes/private');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var db = require('./db').db;
+
+app.set('db', db);
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
