@@ -1,4 +1,4 @@
-const connection = { database: 'werewolf' }
+const connection = process.env.DATABASE_URL
 
 const pgp = require('pg-promise')()
 
