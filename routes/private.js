@@ -30,7 +30,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
     clientID: credentials.GOOGLE_CLIENT_ID,
     clientSecret: credentials.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/private/"
+    callbackURL: process.env.GOOGLE_CALLBACK_HOST + "/private/"
   },
   function(accessToken, refreshToken, profile, done) {
       return done(null, profile);
@@ -38,7 +38,7 @@ passport.use(new GoogleStrategy({
 ));
 
 router.get('/',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: 'http://127.0.0.1:3000/' }),
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: process.env.GOOGLE_CALLBACK_HOST }),
   function(req, res) {
     req.session.user = { id: req.user.id, name: req.user.displayName };
   	res.send(`<h3>Hello ${req.user.displayName}</h3>`);
