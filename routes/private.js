@@ -1,11 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-/* Passport.JS modules
-   Don't think we're using express-session currently, but need it for later
- */
 var passport = require('passport');
-var session = require('express-session');
 
 var credentials;
 try {
@@ -22,7 +17,6 @@ try {
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 router.use(passport.initialize());
-router.use(passport.session());
 
 /* Serializes the login session to a cookie */
 passport.serializeUser(function(user, done) {
@@ -46,6 +40,7 @@ passport.use(new GoogleStrategy({
 router.get('/',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: 'http://127.0.0.1:3000/' }),
   function(req, res) {
+    req.session.user = { id: req.user.id, name: req.user.displayName };
   	res.send(`<h3>Hello ${req.user.displayName}</h3>`);
 });
 
