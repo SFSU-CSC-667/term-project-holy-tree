@@ -8,9 +8,6 @@ const connection = process.env.DATABASE_URL
 const pgp = require('pg-promise')(options);
 const db = pgp(connection);
 
-var express = require('express');
-var router = express.Router();
-
 // db.any("SELECT name from users where id=16", [true])
 // 	.then(function (data){
 //   	console.log("DATA: ", data )
