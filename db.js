@@ -17,14 +17,14 @@ const db = pgp(connection);
 //  	});
 
 // this will insert 'john doe' and 8 into the db
-db.none("INSERT INTO users(name,rank) VALUES($1, $2)", ['john doe', 8])
-  .then(function () {
-  console.log('database INSERT successful!!');
-  })
-  .catch(function (error) {
-    console.log('nothing is stored into database!!\n\n', error);
-    
-  });
+// db.none("INSERT INTO users(name,rank) VALUES($1, $2)", ['john doe', 8])
+//   .then(function () {
+//   console.log('database INSERT successful!!');
+//   })
+//   .catch(function (error) {
+//     console.log('nothing is stored into database!!\n\n', error);
+//
+//   });
 
 
-module.exports = { db }
+module.exports = db
