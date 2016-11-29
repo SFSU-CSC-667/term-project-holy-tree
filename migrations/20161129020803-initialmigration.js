@@ -14,12 +14,15 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return null;
+exports.up = function(db, callback) {
+  db.createTable('users', {
+    id: { type: 'int', primaryKey: true },
+    name: 'string'
+  }, callback);
 };
 
-exports.down = function(db) {
-  return null;
+exports.down = function(db, callback) {
+  db.dropTable('users', callback);
 };
 
 exports._meta = {
