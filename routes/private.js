@@ -51,7 +51,7 @@ router.get('/',
         console.log('nothing is stored into database!!\n\n', error);
       });
 
-  	res.send(`<h3>Hello ${req.user.displayName}</h3>`);
+    res.redirect('/');
 });
 
 module.exports = router;
