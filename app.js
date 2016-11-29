@@ -29,7 +29,7 @@ io.on('connection', function(socket){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'layout'}));
 app.set('view engine', '.hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
