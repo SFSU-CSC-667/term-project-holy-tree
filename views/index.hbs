@@ -5,7 +5,7 @@
 
 <form class="" action="index.html" method="post">
   <input id="m" autocomplete="off" type="text" name="" value="">
-  <button type="button" name="button">Send</button>
+  <button type="submit" name="button">Send</button>
 </form>
 
 <script type="text/javascript">
@@ -17,7 +17,7 @@
     return false;
   });
 
-  socket.on('chat message', function(msg){
+  socket.on('chat message', function(msg) {
     $('#messages').append($('<li>').text( msg["name"] + ": " + msg["message"] ));
   });
 </script>
