@@ -5,12 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var exphbs  = require('express-handlebars');
 
 require('dotenv').config({ silent: true });
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var private = require('./routes/private');
+var lobby = require('./routes/lobby');
 
 var app = express();
 var server = require('http').Server(app);
@@ -27,8 +29,8 @@ io.on('connection', function(socket){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
+app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.set('view engine', '.hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use( function(req, res, next) {
@@ -51,6 +53,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/users', users);
 app.use('/private', private);
+app.use('/lobby', lobby);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
