@@ -38,6 +38,11 @@ app.use( function(req, res, next) {
   next();
 });
 
+//  Register Partials
+exphbs.registerPartial('header', '{{header}}');
+exphbs.registerPartial('footer', '{{footer}}');
+exphbs.registerPartial('navbar', '{{navbar}}');
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
