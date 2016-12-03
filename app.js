@@ -39,8 +39,6 @@ app.use( function(req, res, next) {
 });
 
 //  Register Partials
-exphbs.registerPartial('header', '{{header}}');
-exphbs.registerPartial('footer', '{{footer}}');
 exphbs.registerPartial('navbar', '{{navbar}}');
 
 app.use(logger('dev'));
