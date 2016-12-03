@@ -21,9 +21,16 @@ var db = require('./db').db;
 
 app.set('db', db);
 
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+// Socket.io Intializations and Config
+io.on('subscribe', function(room) {
+  console.log(`Joining ${room}`);
+  io.join(room);
+});
+
+io.on('send message', function(data) {
+  console.log(`Broadcast ${data.message}`);
+  socket.broadcast.to(data.room).emit('conversation private post', {
+    message: data.message
   });
 });
 
@@ -37,9 +44,6 @@ app.use( function(req, res, next) {
   res.io = io;
   next();
 });
-
-//  Register Partials
-exphbs.registerPartial('navbar', '{{navbar}}');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

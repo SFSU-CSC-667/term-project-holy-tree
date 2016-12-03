@@ -1,13 +1,9 @@
 <h1> {{ title }} </h1>
 <p> Welcome to {{ title }} </p>
 
-<ul id="messages"></ul>
+<a id='join-public-game' class='btn btn-default' href='/lobby/join'>Join Public Game</a>
 
-<form class="" action="index.html" method="post">
-  <input id="m" autocomplete="off" type="text" name="" value="">
-  <button type="submit" name="button">Send</button>
-</form>
-
+<!-- 
 <script type="text/javascript">
   var socket = io();
   var playerName = "{{ name }}";
@@ -21,3 +17,4 @@
     $('#messages').append($('<li>').text( msg["name"] + ": " + msg["message"] ));
   });
 </script>
+-->
