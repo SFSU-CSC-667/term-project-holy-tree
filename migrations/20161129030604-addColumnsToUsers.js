@@ -15,14 +15,14 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callBack) {
-	db.addColumn('users', 'profile_pic', {type: 'string'}, callBack)
+  db.addColumn('users', 'profile_pic', {type: 'string'}, callBack)
   db.addColumn('users', 'uid', {type: 'string'}, callBack)
   db.addColumn('users', 'rank', {type: 'int'}, callBack)
   db.addColumn('users', 'created_at', {type: 'date'}, callBack)
 };
 
 exports.down = function(db, callBack) {
-	db.removeColumn('users', 'profile_pic', callBack)
+  db.removeColumn('users', 'profile_pic', callBack)
 };
 
 exports._meta = {
