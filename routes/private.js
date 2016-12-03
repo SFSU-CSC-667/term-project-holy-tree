@@ -41,17 +41,18 @@ passport.use(new GoogleStrategy({
 router.get('/',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: process.env.GOOGLE_CALLBACK_HOST }),
   function(req, res) {
-    req.session.user = { id: req.user.id, name: req.user.displayName };
+    req.session.user = { name: req.user.displayName };
 
-    db.none(
-        "INSERT INTO users(name,rank) VALUES($1, $2)", [ req.user.displayName, 0 ]
-      ).then( function () {
-        console.log('database INSERT successful!!');
-      }).catch( function (error) {
-        console.log('nothing is stored into database!!\n\n', error);
+    db.one("SELECT * FROM users WHERE uid = $1", [ req.user.id ], user => user)
+      .then( user => { req.session.user.id = user.id; })
+      .catch( error => {
+        db.one("INSERT INTO users (name, uid) VALUES($1, $2)", [ req.user.displayName, req.user.id ], user => user)
+          .then( user => { req.session.user.id = user.id; })
+          .catch( error => { console.log("ERROR:", error.message || error) });
       });
 
     res.redirect('/');
-});
+  }
+);
 
 module.exports = router;
