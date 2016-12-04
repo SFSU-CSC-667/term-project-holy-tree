@@ -21,16 +21,20 @@ var db = require('./db').db;
 
 app.set('db', db);
 
-// Socket.io Intializations and Config
-io.on('subscribe', function(room) {
-  console.log(`Joining ${room}`);
-  io.join(room);
-});
+io.on('connection', function(socket){
+  // Socket.io Intializations and Config
+  socket.on('subscribe to lobby', function(lobby) {
+    console.log(JSON.stringify(lobby));
+    socket.join(lobby);
+  });
 
-io.on('send message', function(data) {
-  console.log(`Broadcast ${data.message}`);
-  socket.broadcast.to(data.room).emit('conversation private post', {
-    message: data.message
+  socket.on('chat message', function(data) {
+    console.log(`Broadcast ${data.message}`);
+    console.log(JSON.stringify(data));
+    io.to(data.lobby).emit('chat message', {
+      message: data.message,
+      user_name: data.user_name
+    });
   });
 });
 

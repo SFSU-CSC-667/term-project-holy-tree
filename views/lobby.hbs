@@ -1,0 +1,28 @@
+<div class="lobby-info">
+    Lobby {{ lobby_id }}
+</div>
+
+<div class="chat-container">
+    <ul id="messages"></ul>
+    <form>
+        <input type="text" id="message-input">
+        <input type="submit" value="Send">
+    </form>
+</div>
+
+<script type="text/javascript">
+  var socket = io.connect();
+  
+  socket.emit( 'subscribe to lobby', {{ lobby_id }} );
+
+  $('form').submit( function(){
+    socket.emit('chat message', { message: $('#message-input').val(), user_name: '{{ user_name }}', lobby: {{ lobby_id }} });
+    $('#message-input').val('');
+
+    return false;
+  });
+
+  socket.on('chat message', function( msg ) {
+    $('#messages').append($('<li>').text( msg["user_name"] + ": " + msg["message"] ));
+  });
+</script>
