@@ -31,7 +31,7 @@ io.on('connection', function(socket){
 
     new Lobby().incrementPlayerCount(subscription.lobby)
          .then( player_count => {
-            io.to(subscription.lobby).emit('player joined', { player_count: data.player_count });
+            io.to(subscription.lobby).emit('player joined', { player_count: player_count });
             io.to(subscription.lobby).emit('chat message', { message: `${subscription.user_name} has joined the lobby`, user_name: 'WerewolfApp' });
          })
          .catch( error => { console.log(error) });
