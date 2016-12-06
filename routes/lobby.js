@@ -8,7 +8,7 @@ router.get('/join', function(req, res, next) {
     lobby = new Lobby();
 
     lobby.findAvailable()
-        .then( data => {  res.redirect( `/lobby/${data.id}` ); }) 
+        .then( data => {  res.redirect( `/lobby/${data.id}` ); })
         .catch( error => {
             lobby.create()
                 .then( id => { res.redirect( `/lobby/${id}` ); })
