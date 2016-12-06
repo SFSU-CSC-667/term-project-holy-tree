@@ -14,6 +14,13 @@ class User {
         [ userData.name, userData.uid, userData.profile_pic, userData.rank ]
       );
     }
+
+    joinLobby ( data ) {
+      return db.one(
+        "INSERT INTO user_lobbies (lobby_id, user_id) VALUES($1, $2) RETURNING lobby_id",
+        [ data.lobby_id, data.user_id ]
+      )
+    }
 }
 
 module.exports = User;
