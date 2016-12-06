@@ -18,7 +18,7 @@ router.get('/join', function(req, res, next) {
 
 /* GET join lobby. */
 router.get('/:id', function(req, res, next) {
-    res.render( 'lobby', { lobby_id: req.params.id } );
+    res.render( 'lobby', { lobby_id: req.params.id, user_name: req.session.user.name } );
 });
 
 module.exports = router;

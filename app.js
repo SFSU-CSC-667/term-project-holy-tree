@@ -23,20 +23,30 @@ app.set('db', db);
 
 io.on('connection', function(socket){
   // Socket.io Intializations and Config
-  socket.on('subscribe to lobby', function(lobby) {
-    console.log(JSON.stringify(lobby));
-    socket.join(lobby);
+  socket.on('subscribe to lobby', function(data) {
+    socket.join(data.lobby);
+    io.to(data.lobby).emit('player joined', data);
   });
 
   socket.on('chat message', function(data) {
-    console.log(`Broadcast ${data.message}`);
-    console.log(JSON.stringify(data));
     io.to(data.lobby).emit('chat message', {
       message: data.message,
       user_name: data.user_name
     });
   });
+
+  socket.on('player joined', function(data) {
+    io.to(data.lobby).emit('player joined', { 
+      player_count: 3 
+    });
+    io.to(data.lobby).emit('chat message', {
+      message: `${data.name} has joined the lobby`,
+      user_name: 'WerewolfApp'
+    });
+  });
+
 });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
