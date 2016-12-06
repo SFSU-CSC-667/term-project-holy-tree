@@ -1,39 +1,40 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var exphbs  = require('express-handlebars');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const exphbs  = require('express-handlebars');
 
 require('dotenv').config({ silent: true });
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var private = require('./routes/private');
-var lobby = require('./routes/lobby');
+const routes = require('./routes/index');
+const users = require('./routes/users');
+const private = require('./routes/private');
+const lobby = require('./routes/lobby');
 
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var db = require('./db').db;
+const Lobby = require('./models/Lobby');
+
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const db = require('./db').db;
 
 app.set('db', db);
 
 io.on('connection', function(socket){
   // Socket.io Intializations and Config
-  socket.on('subscribe to lobby', function(data) {
-    socket.join(data.lobby);
-    
-    io.to(data.lobby).emit('player joined', { 
-      player_count: 3 
-    });
-    
-    io.to(data.lobby).emit('chat message', {
-      message: `${data.user_name} has joined the lobby`,
-      user_name: 'WerewolfApp'
-    });
+  socket.on('subscribe to lobby', function(subscription) {
+    console.log(subscription);
+    socket.join(subscription.lobby);
+
+    new Lobby().incrementPlayerCount(subscription.lobby)
+         .then( player_count => {
+            io.to(subscription.lobby).emit('player joined', { player_count: data.player_count });
+            io.to(subscription.lobby).emit('chat message', { message: `${subscription.user_name} has joined the lobby`, user_name: 'WerewolfApp' });
+         })
+         .catch( error => { console.log(error) });
   });
 
   socket.on('chat message', function(data) {
@@ -85,7 +86,7 @@ app.use('/lobby', lobby);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
