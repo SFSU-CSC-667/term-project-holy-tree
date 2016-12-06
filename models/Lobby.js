@@ -8,14 +8,16 @@ class Lobby {
     findAvailable () {
       return db.one(
         "SELECT MIN(id) FROM lobbies WHERE visible = $1 and player_count < $2;",
-        [true, Lobby.MAX_PLAYERS]
+        [true, Lobby.MAX_PLAYERS],
+        data => data.min
       )
     }
 
     create () {
       return db.one(
         "INSERT INTO lobbies (visible, player_count) VALUES ($1, $2) RETURNING id;",
-        [true, 0]
+        [true, 0],
+        data => data.id
       )
     }
 
