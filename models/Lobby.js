@@ -27,6 +27,13 @@ class Lobby {
       )
     }
 
+    hasMember ( data ) {
+      return db.one(
+        "SELECT * FROM user_lobbies WHERE user_id = $1 and lobby_id = $2",
+        [ data.user_id, data.lobby_id ]
+      );
+    }
+
     static get MAX_PLAYERS () {
         return 3;
     }
