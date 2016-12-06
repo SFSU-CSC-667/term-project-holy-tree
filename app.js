@@ -31,7 +31,7 @@ io.on('connection', function(socket){
     });
     
     io.to(data.lobby).emit('chat message', {
-      message: `${data.name} has joined the lobby`,
+      message: `${data.user_name} has joined the lobby`,
       user_name: 'WerewolfApp'
     });
   });

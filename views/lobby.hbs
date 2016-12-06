@@ -13,7 +13,7 @@
 <script type="text/javascript">
   var socket = io.connect();
   
-  socket.emit( 'subscribe to lobby', { lobby: {{ lobby_id }}, player: '{{ user_name }}' } );
+  socket.emit( 'subscribe to lobby', { lobby: {{ lobby_id }}, user_name: '{{ user_name }}' } );
 
   $('form').submit( function(){
     socket.emit('chat message', { message: $('#message-input').val(), user_name: '{{ user_name }}', lobby: {{ lobby_id }} });
@@ -27,6 +27,6 @@
   });
 
   socket.on('player joined', function (data) {
-    $('#lobby-player-count').val(data.player_count);
+    $('#lobby-player-count').text(data.player_count);
   });
 </script>
