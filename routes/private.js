@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var db = require('../db');
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
+const db = require('../db');
+const User = require('../models/User');
 
-var credentials;
+let credentials = {};
 try {
   credentials = require('../credentials');
 } catch(err) {
@@ -15,7 +16,7 @@ try {
   }
 }
 
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 router.use(passport.initialize());
 
@@ -41,21 +42,24 @@ passport.use(new GoogleStrategy({
 router.get('/',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: process.env.GOOGLE_CALLBACK_HOST }),
   function(req, res) {
-    req.session.user = { name: req.user.displayName };
+    let userProfilePicture = req.user.photos[0] ? req.user.photos[0].value : "";
+    let userName = req.user.displayName;
 
-    db.one("SELECT * FROM users WHERE uid = $1", [ req.user.id ], user => user)
-      .then( user => {
-        req.session.user.id = user.id;
-        res.redirect('/');
-      })
-      .catch( error => {
-        db.one("INSERT INTO users (name, uid) VALUES($1, $2)", [ req.user.displayName, req.user.id ], user => user)
-          .then( user => {
-            req.session.user.id = user.id;
-            res.redirect('/');
-          })
-          .catch( error => { console.log("ERROR:", error.message || error) });
-      });
+    let user = new User();
+
+    user.findByUID( req.user.id )
+        .then( user => {
+          req.session.user = { name: user.name, id: user.id };
+          res.redirect('/');
+        })
+        .catch( error => {
+          user.create({ name: userName, uid: req.user.id, profile_pic: userProfilePicture, rank: 1 })
+              .then( user => {
+                req.session.user = { name: user.name, id: user.id };
+                res.redirect('/');
+              })
+              .catch( error => { console.log( "ERROR:", error.message || error ) });
+        });
   }
 );
 
