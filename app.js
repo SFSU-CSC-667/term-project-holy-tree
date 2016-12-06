@@ -71,6 +71,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
+app.use('/lobby', function (req, res, next) {
+  if ( !req.session.user ) {
+    res.status( 403 );
+    res.render( 'error', { message: "You must sign in before joining a lobby", error: {} });
+  } else {
+    next()
+  }
+})
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/private', private);
