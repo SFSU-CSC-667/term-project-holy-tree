@@ -44,14 +44,18 @@ router.get('/',
     req.session.user = { name: req.user.displayName };
 
     db.one("SELECT * FROM users WHERE uid = $1", [ req.user.id ], user => user)
-      .then( user => { req.session.user.id = user.id; })
+      .then( user => {
+        req.session.user.id = user.id;
+        res.redirect('/');
+      })
       .catch( error => {
         db.one("INSERT INTO users (name, uid) VALUES($1, $2)", [ req.user.displayName, req.user.id ], user => user)
-          .then( user => { req.session.user.id = user.id; })
+          .then( user => {
+            req.session.user.id = user.id;
+            res.redirect('/');
+          })
           .catch( error => { console.log("ERROR:", error.message || error) });
       });
-
-    res.redirect('/');
   }
 );
 
