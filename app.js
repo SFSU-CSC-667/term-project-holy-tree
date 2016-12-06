@@ -13,8 +13,7 @@ const routes = require('./routes/index');
 const users = require('./routes/users');
 const private = require('./routes/private');
 const lobby = require('./routes/lobby');
-
-const Lobby = require('./models/Lobby');
+const models = require('./models/models')
 
 const app = express();
 const server = require('http').Server(app);
@@ -29,7 +28,7 @@ io.on('connection', function(socket){
     console.log(subscription);
     socket.join(subscription.lobby);
 
-    new Lobby().incrementPlayerCount(subscription.lobby)
+    models.lobby.incrementPlayerCount(subscription.lobby)
          .then( player_count => {
             io.to(subscription.lobby).emit('player joined', { player_count: player_count });
             io.to(subscription.lobby).emit('chat message', { message: `${subscription.user_name} has joined the lobby`, user_name: 'WerewolfApp' });
@@ -43,7 +42,7 @@ io.on('connection', function(socket){
       user_name: data.user_name
     });
   });
-  
+
 });
 
 
