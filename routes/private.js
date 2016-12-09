@@ -49,7 +49,7 @@ router.get('/',
     console.log(models);
 
     models.user.findByUID( uid )
-      .catch( _ => models.User.create({ name, uid, profile_pic, rank }))
+      .catch( _ => models.user.create({ name, uid, profile_pic, rank }))
       .then( user => {
         req.session.user = { name: user.name, id: user.id };
         res.redirect('/');
