@@ -12,7 +12,7 @@ require('dotenv').config({ silent: true });
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const private = require('./routes/private');
-const lobby = require('./routes/lobby');
+const game = require('./routes/game');
 const models = require('./models/models')
 
 const app = express();
@@ -24,20 +24,20 @@ app.set('db', db);
 
 io.on('connection', function(socket){
   // Socket.io Intializations and Config
-  socket.on('subscribe to lobby', function(subscription) {
+  socket.on('subscribe to game', function(subscription) {
     console.log(subscription);
-    socket.join(subscription.lobby);
+    socket.join(subscription.game);
 
-    models.lobby.incrementPlayerCount(subscription.lobby)
+    models.game.incrementPlayerCount(subscription.game)
          .then( player_count => {
-            io.to(subscription.lobby).emit('player joined', { player_count: player_count });
-            io.to(subscription.lobby).emit('chat message', { message: `${subscription.user_name} has joined the lobby`, user_name: 'WerewolfApp' });
+            io.to(subscription.game).emit('player joined', { player_count: player_count });
+            io.to(subscription.game).emit('chat message', { message: `${subscription.user_name} has joined the game`, user_name: 'WerewolfApp' });
          })
          .catch( error => { console.log(error) });
   });
 
   socket.on('chat message', function(data) {
-    io.to(data.lobby).emit('chat message', {
+    io.to(data.game).emit('chat message', {
       message: data.message,
       user_name: data.user_name
     });
@@ -69,10 +69,10 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.use('/lobby', function (req, res, next) {
+app.use('/game', function (req, res, next) {
   if ( !req.session.user ) {
     res.status( 403 );
-    res.render( 'error', { message: "You must sign in before joining a lobby", error: {} });
+    res.render( 'error', { message: "You must sign in before joining a game", error: {} });
   } else {
     next()
   }
@@ -81,7 +81,7 @@ app.use('/lobby', function (req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/private', private);
-app.use('/lobby', lobby);
+app.use('/game', game);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

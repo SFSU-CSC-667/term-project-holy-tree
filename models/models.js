@@ -1,5 +1,5 @@
 const db = require('../db');
-const lobby = require('./lobby.js')(db);
+const game = require('./game.js')(db);
 const user = require('./user.js')(db);
 
-module.exports = { lobby, user }
+module.exports = { game, user }

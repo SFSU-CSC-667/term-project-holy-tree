@@ -1,5 +1,5 @@
-<div class="lobby-info">
-    <h2><span id='lobby-player-count'>1</span> / 3 Players</span></h2>
+<div class="game-info">
+    <h2><span id='game-player-count'>1</span> / 3 Players</span></h2>
 </div>
 
 <div class="chat-container">
@@ -13,10 +13,10 @@
 <script type="text/javascript">
   var socket = io.connect();
   
-  socket.emit( 'subscribe to lobby', { lobby: {{ lobby_id }}, user_name: '{{ user_name }}' } );
+  socket.emit( 'subscribe to game', { game: {{ game_id }}, user_name: '{{ user_name }}' } );
 
   $('form').submit( function(){
-    socket.emit('chat message', { message: $('#message-input').val(), user_name: '{{ user_name }}', lobby: {{ lobby_id }} });
+    socket.emit('chat message', { message: $('#message-input').val(), user_name: '{{ user_name }}', game: {{ game_id }} });
     $('#message-input').val('');
 
     return false;
@@ -27,6 +27,6 @@
   });
 
   socket.on('player joined', function (data) {
-    $('#lobby-player-count').text(data.player_count);
+    $('#game-player-count').text(data.player_count);
   });
 </script>
