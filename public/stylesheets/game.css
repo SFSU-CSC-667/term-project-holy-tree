@@ -1,0 +1,52 @@
+.game{
+    height:100%;
+}
+
+.game-board {
+    height:50%;
+    border-bottom: 2px solid black;
+}
+
+.player-console {
+    display: flex;
+    height:40%;
+}
+
+.game-chat {
+    width:70%;
+}
+
+.game-chat #messages {
+    height:85%;
+    overflow-y:scroll;
+    border-bottom:1px solid gray;
+}
+
+.game-chat form {
+    display:flex;
+    width: 100%;
+    height:15%;
+}
+
+.game-chat form input {
+    width:90%;
+    height:100%;
+    border:0;
+    margin-left:0px;
+    padding:10px;
+}
+
+.game-chat form button {
+    width:10%;
+    height:100%;
+    background: gray;
+    border:0;
+    margin:0px;
+    padding:10px;
+
+}
+
+.game-info {
+    width:30%;
+    border-left:2px solid black;
+}
