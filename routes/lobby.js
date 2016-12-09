@@ -1,25 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
-const Lobby = require('../models/Lobby');
+const models = require('../models/models');
 
 /* Join a lobby room*/
 router.get('/join', function(req, res, next) {
-    lobby = new Lobby();
-
-    lobby.findAvailable()
-        .then( lobby_id => { 
-            if (lobby_id) {
-                res.redirect( `/lobby/${lobby_id}` );   
-            } else {
-                lobby.create()
-                    .then( id => { res.redirect( `/lobby/${id}` ); })
-                    .catch( error => { console.log( error ) });
-            }   
-        })
-        .catch( error => {
-            console.log(error);
-        });
+  models.lobby.findAvailable()
+    .catch( models.lobby.create )
+    .then ( id => models.user.alreadyInLobby( id, req.session.user.id )
+      .catch( _ => models.user.associateWithLobby( id, req.session.user.id ))
+    )
+    .catch( id => models.user.associateWithLobby( id, req.session.user.id ))
+    .then ( id => res.redirect( `/lobby/${id}` ))
 });
 
 /* GET join lobby. */
