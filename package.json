@@ -13,6 +13,7 @@
     "express": "~4.13.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.2",
+    "handlebars": "^4.0.6",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",

@@ -20,12 +20,15 @@
 
 
 <script type="text/javascript">
-  var socket = io.connect();
+  let socket = io.connect();
+  let user_id = '{{ user_id }}';
+  let user_name = '{{ user_name }}';
+  let game_id = '{{ game_id }}';
 
-  socket.emit( 'subscribe to game', { game: {{ game_id }}, user_name: '{{ user_name }}' } );
+  socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
   $('form').submit( function(){
-    socket.emit('chat message', { message: $('#message-input').val(), user_name: '{{ user_name }}', game: {{ game_id }} });
+    socket.emit('chat message', { message: $('#message-input').val(), user_name: user_name, game_id: game_id });
     $('#message-input').val('');
 
     return false;
@@ -36,6 +39,15 @@
   });
 
   socket.on('player joined', function (data) {
+    let playerCard = Handlebars.compile(`{{> player_card data }}`);
+    if (data.user_id != user_id) {
+
+      $('.game-board').append(  )
+    }
     $('#game-player-count').text(data.player_count);
   });
+
+
+
+
 </script>

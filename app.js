@@ -13,37 +13,39 @@ const routes = require('./routes/index');
 const users = require('./routes/users');
 const private = require('./routes/private');
 const game = require('./routes/game');
-const models = require('./models/models')
+const models = require('./models/models');
 
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const db = require('./db').db;
+const socketInit = require('./routes/socketInit')( io );
 
+//socketInit( io );
 app.set('db', db);
 
-io.on('connection', function(socket){
-  // Socket.io Intializations and Config
-  socket.on('subscribe to game', function(subscription) {
-    console.log(subscription);
-    socket.join(subscription.game);
-
-    models.game.incrementPlayerCount(subscription.game)
-         .then( player_count => {
-            io.to(subscription.game).emit('player joined', { player_count: player_count });
-            io.to(subscription.game).emit('chat message', { message: `${subscription.user_name} has joined the game`, user_name: 'WerewolfApp' });
-         })
-         .catch( error => { console.log(error) });
-  });
-
-  socket.on('chat message', function(data) {
-    io.to(data.game).emit('chat message', {
-      message: data.message,
-      user_name: data.user_name
-    });
-  });
-
-});
+// io.on('connection', function(socket){
+//   // Socket.io Intializations and Config
+//   socket.on('subscribe to game', function(subscription) {
+//     console.log(subscription);
+//     socket.join(subscription.game);
+//
+//     models.game.incrementPlayerCount(subscription.game)
+//          .then( player_count => {
+//             io.to(subscription.game).emit('player joined', { player_count: player_count });
+//             io.to(subscription.game).emit('chat message', { message: `${subscription.user_name} has joined the game`, user_name: 'WerewolfApp' });
+//          })
+//          .catch( error => { console.log(error) });
+//   });
+//
+//   socket.on('chat message', function(data) {
+//     io.to(data.game).emit('chat message', {
+//       message: data.message,
+//       user_name: data.user_name
+//     });
+//   });
+//
+// });
 
 
 // view engine setup
