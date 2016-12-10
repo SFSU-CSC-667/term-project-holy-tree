@@ -37,6 +37,13 @@ const game = db => {
         "INSERT INTO user_game (game_id, user_id) VALUES($1, $2);",
         [ game_id, user_id ]
       ).then( _ => game_id );
+    },
+
+    getUsers: (game_id ) => {
+      return db.any(
+          "SELECT DISTINCT users.id, users.name, users.profile_pic FROM user_game JOIN users on user_game.user_id = users.id WHERE game_id = $1;",
+          [ game_id ]
+        );
     }
   }
 }

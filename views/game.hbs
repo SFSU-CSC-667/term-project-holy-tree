@@ -1,5 +1,7 @@
 <div class='game-board'>
-  PLAYER ICONS GO HERE
+  {{#each users }}
+    <img src='{{ this.profile_pic }}' />
+  {{/each}}
 </div>
 
 <div class='player-console'>
@@ -19,7 +21,7 @@
 
 <script type="text/javascript">
   var socket = io.connect();
-  
+
   socket.emit( 'subscribe to game', { game: {{ game_id }}, user_name: '{{ user_name }}' } );
 
   $('form').submit( function(){

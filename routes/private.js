@@ -46,8 +46,6 @@ router.get('/',
     const uid = req.user.id;
     const rank = 1;
 
-    console.log(models);
-
     models.user.findByUID( uid )
       .catch( _ => models.user.create({ name, uid, profile_pic, rank }))
       .then( user => {
