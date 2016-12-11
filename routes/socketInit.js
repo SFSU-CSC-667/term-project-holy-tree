@@ -44,6 +44,7 @@ const socketInit = io => {
     });
 
     socket.on('chat message', data => {
+      console.log(data);
       io.to(data.game_id).emit('chat message', {
         message: data.message,
         name: data.name
