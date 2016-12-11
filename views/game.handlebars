@@ -22,21 +22,21 @@
 <script type="text/javascript">
   let socket = io.connect();
   let user_id = '{{ user_id }}';
-  let user_name = '{{ user_name }}';
+  let name = '{{ name }}';
   let game_id = '{{ game_id }}';
 
 
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
   $('form').submit( function(){
-    socket.emit('chat message', { message: $('#message-input').val(), user_name: user_name, game_id: game_id });
+    socket.emit('chat message', { message: $('#message-input').val(), name: name, game_id: game_id });
     $('#message-input').val('');
 
     return false;
   });
 
   socket.on('chat message', function( msg ) {
-    $('#messages').append($('<li>').text( msg["user_name"] + ": " + msg["message"] ));
+    $('#messages').append($('<li>').text( msg["name"] + ": " + msg["message"] ));
   });
 
   socket.on('player joined', function (data) {
