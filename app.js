@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const exphbs  = require('express-handlebars');
+const game_config = require('./game_config');
 
 require('dotenv').config({ silent: true });
 
