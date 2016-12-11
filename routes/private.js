@@ -41,7 +41,7 @@ passport.use(new GoogleStrategy({
 router.get('/',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], failureRedirect: process.env.GOOGLE_CALLBACK_HOST }),
   function(req, res) {
-    const profile_pic = req.user.photos[0] ? req.user.photos[0].value : "";
+    const profile_pic = req.user.photos[0] ? req.user.photos[0].value.split('?')[0] : "";
     const name = req.user.displayName;
     const uid = req.user.id;
     const rank = 1;

@@ -21,37 +21,12 @@ const io = require('socket.io')(server);
 const db = require('./db').db;
 const socketInit = require('./routes/socketInit')( io );
 
-//socketInit( io );
 app.set('db', db);
-
-// io.on('connection', function(socket){
-//   // Socket.io Intializations and Config
-//   socket.on('subscribe to game', function(subscription) {
-//     console.log(subscription);
-//     socket.join(subscription.game);
-//
-//     models.game.incrementPlayerCount(subscription.game)
-//          .then( player_count => {
-//             io.to(subscription.game).emit('player joined', { player_count: player_count });
-//             io.to(subscription.game).emit('chat message', { message: `${subscription.user_name} has joined the game`, user_name: 'WerewolfApp' });
-//          })
-//          .catch( error => { console.log(error) });
-//   });
-//
-//   socket.on('chat message', function(data) {
-//     io.to(data.game).emit('chat message', {
-//       message: data.message,
-//       user_name: data.user_name
-//     });
-//   });
-//
-// });
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'layout'}));
-app.set('view engine', '.hbs');
+app.engine('.handlebars', exphbs({extname: '.handlebars', defaultLayout: 'layout'}));
+app.set('view engine', '.handlebars');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use( function(req, res, next) {

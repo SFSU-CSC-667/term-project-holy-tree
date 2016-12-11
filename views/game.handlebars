@@ -1,6 +1,6 @@
 <div class='game-board'>
   {{#each users }}
-    <img src='{{ this.profile_pic }}' />
+    {{> player_card this }}
   {{/each}}
 </div>
 
@@ -25,6 +25,7 @@
   let user_name = '{{ user_name }}';
   let game_id = '{{ game_id }}';
 
+
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
   $('form').submit( function(){
@@ -39,10 +40,8 @@
   });
 
   socket.on('player joined', function (data) {
-    let playerCard = Handlebars.compile(`{{> player_card data }}`);
     if (data.user_id != user_id) {
-
-      $('.game-board').append(  )
+      $('.game-board').append(Handlebars.templates.player_card(data));
     }
     $('#game-player-count').text(data.player_count);
   });
