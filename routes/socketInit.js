@@ -19,8 +19,9 @@ const socketInit = io => {
 
       subscribeUser( subscription.user_id, subscription.game_id )
         .then( args => {
-            io.to(subscription.game_id).emit('player joined', { player_count: args.player_count, user_name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
-            io.to(subscription.game_id).emit('chat message', { message: `${args.user.user_name} has joined the game`, user_name: 'WerewolfApp' });
+            console.log(args);
+            io.to(subscription.game_id).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
+            io.to(subscription.game_id).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'WerewolfApp' });
         })
         .catch( error => { console.log(error) });
     })
@@ -28,7 +29,7 @@ const socketInit = io => {
     socket.on('chat message', data => {
       io.to(data.game).emit('chat message', {
         message: data.message,
-        user_name: data.user_name
+        name: data.name
       });
     });
   });
