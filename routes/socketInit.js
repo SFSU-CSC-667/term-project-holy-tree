@@ -1,4 +1,6 @@
-const models = require('../models/models')
+const models = require('../models/models');
+const game_config = require('../game_config');
+
 
 const socketInit = io => {
 
@@ -14,10 +16,21 @@ const socketInit = io => {
       .then( _ => ({ player_count, user }));
   }
 
-  const notify_individial_user = ( user_id ) => {
-    io.sockets.connected[ user_sockets[user_id] ]
-      .emit('game starting', { time: 20, phase: 'Night', role: 'Villager', user_id: user_id });
-      // get the role information from an object
+  const notify_individial_user = ( user ) => {
+    io.sockets.connected[ user_sockets[user.id] ]
+      .emit('game starting',
+        {
+          role: { 
+            title: user.role, 
+            description: 'Some role description.', 
+            supplementary: null, 
+            item: null, 
+            muted: false 
+          }, 
+          phase: 'NIGHT', 
+          duration: game_config[MAX_PLAYERS]['night_duration'] 
+        }
+      );
   }
 
   io.on('connection', socket => {
@@ -35,10 +48,16 @@ const socketInit = io => {
         .then( args => {
           io.to( game_id ).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
           io.to( game_id ).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'GAME' });
+          
           if( args.player_count == MAX_PLAYERS ) {
-            models.game.getUsers( game_id )
-              .then( users => { users.forEach( user => notify_individial_user( user.id ))})
+            models.game.setup( game_id, game_config[MAX_PLAYERS]['roles'] )
+              .then( users => { users.forEach( user => notify_individial_user( user ))})
+
+
+            // models.game.getUsers( game_id )
+            //   .then( users => { users.forEach( user => notify_individial_user( user.id ))})
           }
+
         })
         .catch( error => { console.log(error) });
     });
