@@ -55,4 +55,12 @@
     }
     $('#game-player-count').text(data.player_count);
   });
+
+  socket.on('game starting', function( data ) {
+    console.log(data);
+  });
+
+  socket.on('private message', function( data ) {
+    console.log(data);
+  });
 </script>
