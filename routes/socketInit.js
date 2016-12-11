@@ -21,7 +21,7 @@ const socketInit = io => {
         .then( args => {
             console.log(args);
             io.to(subscription.game_id).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
-            io.to(subscription.game_id).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'WerewolfApp' });
+            io.to(subscription.game_id).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'GAME' });
         })
         .catch( error => { console.log(error) });
     })

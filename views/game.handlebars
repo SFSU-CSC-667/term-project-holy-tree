@@ -1,7 +1,17 @@
 <div class='game-board'>
-  {{#each users }}
-    {{> player_card this }}
-  {{/each}}
+  <div class='players'>
+    {{#each users }}
+      {{> player_card this }}
+    {{/each}}
+  </div>
+  <div class='extra-cards'>
+    <div class='card'>
+    </div>
+    <div class='card'>
+    </div>
+    <div class='card'>
+    </div>
+  </div>
 </div>
 
 <div class='player-console'>
@@ -36,7 +46,7 @@
   });
 
   socket.on('chat message', function( msg ) {
-    $('#messages').append($('<li>').text( msg["name"] + ": " + msg["message"] ));
+    $('#messages').append($('<li>').html(`<strong>${msg['name']}:</strong> ${msg['message']}`));
   });
 
   socket.on('player joined', function (data) {
@@ -45,8 +55,4 @@
     }
     $('#game-player-count').text(data.player_count);
   });
-
-
-
-
 </script>
