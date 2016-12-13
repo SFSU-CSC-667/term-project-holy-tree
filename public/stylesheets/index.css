@@ -1,0 +1,30 @@
+body {
+  background-color:rgb(60,60,66);
+  margin-top: -25px;
+}
+
+.welcome {
+  display: flex;
+  padding-top: 125px;
+  font-family: creepster, sans-serif;
+  font-size: 100px;
+  color: rgb(103,101,143);
+  align-items: center;
+  justify-content: center;
+}
+
+.watched {
+  display: flex;
+  font-family: creepster, sans-serif;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 70px;
+
+}
+
+.join-a-public-game {
+  display: flex;
+  color: blue;
+  justify-content: center;
+  align-items: flex-end;
+}
