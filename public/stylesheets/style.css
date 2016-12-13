@@ -4,3 +4,32 @@ body { font: 13px Helvetica, Arial; height:100%; }
 #messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background-color:rgb(225,225,225); }
+
+.container-flex {
+	height: 80%;
+	padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+	display: flex; 
+	
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+	width: auto;
+}
+
+.flex-item {
+	width: auto;
+	height: auto;
+	text-align: center;
+}
+
+.intro {
+	font-family: "Helvetica";
+	text-align: center;
+}
