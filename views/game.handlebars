@@ -1,0 +1,66 @@
+<div class='game-board'>
+  <div class='players'>
+    {{#each users }}
+      {{> player_card this }}
+    {{/each}}
+  </div>
+  <div class='extra-cards'>
+    <div class='card'>
+    </div>
+    <div class='card'>
+    </div>
+    <div class='card'>
+    </div>
+  </div>
+</div>
+
+<div class='player-console'>
+    <div class="game-chat">
+      <ul id="messages"></ul>
+      <form>
+          <input type="text" id="message-input">
+          <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <div class="game-info">
+      <h2><span id='game-player-count'>1</span> / 3 Players</span></h2>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+  let socket = io.connect();
+  let user_id = '{{ user_id }}';
+  let name = '{{ name }}';
+  let game_id = '{{ game_id }}';
+
+
+  socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
+
+  $('form').submit( function(){
+    socket.emit('chat message', { message: $('#message-input').val(), name: name, game_id: game_id });
+    $('#message-input').val('');
+
+    return false;
+  });
+
+  socket.on('chat message', function( msg ) {
+    $('#messages').append($('<li>').html(`<strong>${msg['name']}:</strong> ${msg['message']}`));
+  });
+
+  socket.on('player joined', function (data) {
+    if (data.user_id != user_id) {
+      $('.game-board').append(Handlebars.templates.player_card(data));
+    }
+    $('#game-player-count').text(data.player_count);
+  });
+
+  socket.on('game starting', function( data ) {
+    console.log(data);
+  });
+
+  socket.on('private message', function( data ) {
+    console.log(data);
+  });
+</script>

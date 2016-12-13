@@ -1,0 +1,89 @@
+.game{
+    height:100%;
+}
+
+.game-board {
+    display: flex;
+    flex-direction: row;
+    height:60%;
+    border-bottom: 2px solid black;
+}
+
+.game-board .players {
+    width:85%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.game-board .extra-cards {
+    display:flex;
+    width:15%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-left:2px solid black;
+}
+
+.player-console {
+    display: flex;
+    height:40%;
+}
+
+.game-chat {
+    width:70%;
+}
+
+.game-chat #messages {
+    height:85%;
+    overflow-y:scroll;
+    border-bottom:1px solid gray;
+}
+
+.game-chat form {
+    display:flex;
+    width: 100%;
+    height:15%;
+}
+
+.game-chat form input {
+    width:90%;
+    height:100%;
+    border:0;
+    margin-left:0px;
+    padding:10px;
+}
+
+.game-chat form button {
+    width:10%;
+    height:100%;
+    background: gray;
+    border:0;
+    margin:0px;
+    padding:10px;
+
+}
+
+.game-info {
+    width:30%;
+    border-left:2px solid black;
+}
+
+
+/* Player and Extra Cards */
+
+.player-card {
+    width:220px;
+    height:220px;
+    border-radius: 4px;
+}
+
+.extra-cards .card {
+    width:140px;
+    height:140px;
+    background:url('/images/default_cardback.png') center center no-repeat;
+    background-size:100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}

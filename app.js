@@ -12,44 +12,21 @@ require('dotenv').config({ silent: true });
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const private = require('./routes/private');
-const lobby = require('./routes/lobby');
-const models = require('./models/models')
+const game = require('./routes/game');
+const models = require('./models/models');
 
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const db = require('./db').db;
+const socketInit = require('./routes/socketInit')( io );
 
 app.set('db', db);
 
-io.on('connection', function(socket){
-  // Socket.io Intializations and Config
-  socket.on('subscribe to lobby', function(subscription) {
-    console.log(subscription);
-    socket.join(subscription.lobby);
-
-    models.lobby.incrementPlayerCount(subscription.lobby)
-         .then( player_count => {
-            io.to(subscription.lobby).emit('player joined', { player_count: player_count });
-            io.to(subscription.lobby).emit('chat message', { message: `${subscription.user_name} has joined the lobby`, user_name: 'WerewolfApp' });
-         })
-         .catch( error => { console.log(error) });
-  });
-
-  socket.on('chat message', function(data) {
-    io.to(data.lobby).emit('chat message', {
-      message: data.message,
-      user_name: data.user_name
-    });
-  });
-
-});
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'layout'}));
-app.set('view engine', '.hbs');
+app.engine('.handlebars', exphbs({extname: '.handlebars', defaultLayout: 'layout'}));
+app.set('view engine', '.handlebars');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use( function(req, res, next) {
@@ -69,10 +46,10 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.use('/lobby', function (req, res, next) {
+app.use('/game', function (req, res, next) {
   if ( !req.session.user ) {
     res.status( 403 );
-    res.render( 'error', { message: "You must sign in before joining a lobby", error: {} });
+    res.render( 'error', { message: "You must sign in before joining a game", error: {} });
   } else {
     next()
   }
@@ -81,7 +58,7 @@ app.use('/lobby', function (req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/private', private);
-app.use('/lobby', lobby);
+app.use('/game', game);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
