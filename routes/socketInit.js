@@ -22,9 +22,10 @@ const socketInit = io => {
       .emit('game starting',
         {
           role: { 
-            title: user.role, 
-            description: 'Some role description.', 
-            supplementary: null, 
+            title: roles[user.role].title, 
+            description: roles[user.role].night, 
+            win: roles[user.role].win, 
+            actions: roles[user.role].actions,
             item: null, 
             muted: false 
           }, 
