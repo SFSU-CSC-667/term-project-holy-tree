@@ -60,7 +60,7 @@ class Game {
   }
 
   setup ( game_id, roles ) {
-      this.getUsers( game_id )
+      return this.getUsers( game_id )
         .then( users => underscore.shuffle( users ) )
         .then( shuffled => shuffled.map( (user, i) => this.setUserGameRole(user,roles[i])));
   }
