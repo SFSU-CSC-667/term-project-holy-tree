@@ -57,10 +57,8 @@
   });
 
   socket.on('game starting', function( data ) {
-    console.log(data);
-  });
-
-  socket.on('private message', function( data ) {
-    console.log(data);
+    if (data.user_id != user_id) {
+      $('.game-info').append(Handlebars.templates.player_game_info( data.role ));
+    }
   });
 </script>
