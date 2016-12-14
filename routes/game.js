@@ -6,8 +6,8 @@ const models = require('../models/models');
 router.get('/join', (req, res, next) => {
   if( req.session.user.id ) {
     models.user.alreadyInGame( req.session.user.id )
-      .catch( _ => next() )
-      .then( game_id => res.redirect( `/game/${game_id}` ));
+      .then( game_id => { console.log('GAME ID ', game_id); res.redirect( `/game/${game_id}` ) })
+      .catch( error => { console.log(error); next(); } );
   } else {
     next();
   }

@@ -1,6 +1,6 @@
-const roles = 
+const roles =
 {
-    'villager': 
+    'villager':
     {
         'title': 'Villager',
         'night': 'You are a regular villager with no special powers. Sleep tight.',
@@ -8,7 +8,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions':[]
     },
-    'seer': 
+    'seer':
     {
         'title': 'Seer',
         'night': 'You are the Seer. Select another player to see their role.',
@@ -16,7 +16,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-one']
     },
-    'werewolf': 
+    'werewolf':
     {
         'title': 'Werewolf',
         'night': 'You are a Werewolf. Stay hidden and cause confusion.',
@@ -25,7 +25,7 @@ const roles =
         'win': 'You win if the villagers fail to kill any werewolves.',
         'actions': []
     },
-    'robber': 
+    'robber':
     {
         'title': 'Robber',
         'night': 'You are the Robber. Choose another player and swap roles with them.',
@@ -33,7 +33,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-one']
     },
-    'troublemaker': 
+    'troublemaker':
     {
         'title': 'Troublemaker',
         'night': 'You are the Troublemaker. Select two players and swap their roles.',
@@ -41,7 +41,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-two']
     },
-    'insomniac': 
+    'insomniac':
     {
         'title': 'Insomniac',
         'night': 'You are the Insomniac. You will see your role after everyone has gone to sleep.',
@@ -49,7 +49,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': []
     },
-    'hunter': 
+    'hunter':
     {
         'title': 'Hunter',
         'night': 'You are the Hunter. If you are killed during voting, the player you voted for also dies.',
@@ -57,7 +57,7 @@ const roles =
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': []
     },
-    'tanner': 
+    'tanner':
     {
         'title': 'Tanner',
         'night': 'You are the Tanner. You are really sad and hope the villagers vote to kill you.',
@@ -65,7 +65,7 @@ const roles =
         'win': 'You win if the villagers vote to kill you.',
         'actions': []
     },
-    'curator': 
+    'curator':
     {
         'title': 'Curator',
         'night': 'You are the Curator. Select a player to give them a random item from your collection.',
@@ -74,4 +74,5 @@ const roles =
         'actions': ['select-one', 'select-self']
     }
 }
-    
+
+module.exports = roles;

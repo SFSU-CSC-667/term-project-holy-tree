@@ -8,9 +8,9 @@ const socketInit = io => {
   const MAX_PLAYERS = 3;
   const user_sockets = {};
 
-  const subscribeUser = ( user_id, game_id ) => {
+  const getSubscriptionData = ( user_id, game_id ) => {
     let player_count, user;
-    return models.game.incrementPlayerCount( game_id )
+    return models.game.getPlayerCount( game_id )
       .then( count => { player_count = count; })
       .then( _ => models.user.findByID( user_id ))
       .then( user_data => { user = user_data; })
@@ -18,19 +18,21 @@ const socketInit = io => {
   }
 
   const notify_individial_user = ( user ) => {
-    io.sockets.connected[ user_sockets[user.id] ]
+    let user_socket = user_sockets[ user.user_id ];
+    let user_role = roles[ user.role ];
+    io.sockets.connected[ user_socket ]
       .emit('game starting',
         {
-          role: { 
-            title: roles[user.role].title, 
-            description: roles[user.role].night, 
-            win: roles[user.role].win, 
-            actions: roles[user.role].actions,
-            item: null, 
-            muted: false 
-          }, 
-          phase: 'NIGHT', 
-          duration: game_config[MAX_PLAYERS]['night_duration'] 
+          role: {
+            title: user_role.title,
+            description: user_role.night,
+            win: user_role.win,
+            actions: user_role.actions,
+            item: null,
+            muted: false
+          },
+          phase: 'NIGHT',
+          duration: game_config[MAX_PLAYERS]['night_duration']
         }
       );
   }
@@ -46,18 +48,14 @@ const socketInit = io => {
 
       socket.join( game_id );
 
-      subscribeUser( user_id, game_id )
+      getSubscriptionData( user_id, game_id )
         .then( args => {
           io.to( game_id ).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
           io.to( game_id ).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'GAME' });
-          
+
           if( args.player_count == MAX_PLAYERS ) {
             models.game.setup( game_id, game_config[MAX_PLAYERS]['roles'] )
-              .then( users => { users.forEach( user => notify_individial_user( user ))})
-
-
-            // models.game.getUsers( game_id )
-            //   .then( users => { users.forEach( user => notify_individial_user( user.id ))})
+              .then( users => { users.forEach( user => { user.then( notify_individial_user )})})
           }
 
         })
