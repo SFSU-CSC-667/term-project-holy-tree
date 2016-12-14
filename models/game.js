@@ -23,11 +23,11 @@ class Game {
       ).bind( this );
   }
 
-  incrementPlayerCount ( game_id ) {
+  getPlayerCount ( game_id ) {
       return this.db.one(
-        "UPDATE games SET player_count = player_count + 1 WHERE id = $1 RETURNING player_count;",
-        [game_id],
-        data => data.player_count
+        "SELECT COUNT(*) FROM user_game WHERE game_id = $1;",
+        [ game_id ],
+        data => data.count
       );
    }
 
@@ -62,7 +62,7 @@ class Game {
   setup ( game_id, roles ) {
       return this.getUsers( game_id )
         .then( users => underscore.shuffle( users ) )
-        .then( shuffled => shuffled.map( (user, i) => this.setUserGameRole(user,roles[i])));
+        .then( shuffled => shuffled.map( ( user, i ) => this.setUserGameRole( user.id,roles[i] )));
   }
 
 }
