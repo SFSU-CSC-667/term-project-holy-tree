@@ -58,7 +58,7 @@
 
   socket.on('game starting', function( data ) {
     if (data.user_id != user_id) {
-      $('.game-info').append(Handlebars.templates.player_game_info( data.role ));
+      $('.game-info').append(Handlebars.templates.player_game_info( data ));
     }
   });
 </script>

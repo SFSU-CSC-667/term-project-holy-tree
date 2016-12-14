@@ -3,73 +3,63 @@ const roles =
     'villager':
     {
         'title': 'Villager',
-        'night': 'You are a regular villager with no special powers. Sleep tight.',
-        'day': 'You are a regular villager. Find a werewolf.',
+        'description': 'You are a regular villager with no special powers.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions':[]
     },
     'seer':
     {
         'title': 'Seer',
-        'night': 'You are the Seer. Select another player to see their role.',
-        'day': 'You saw that #username# is a #role#',
+        'description': 'You are the Seer. Select another player to see their role.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-one']
     },
     'werewolf':
     {
         'title': 'Werewolf',
-        'night': 'You are a Werewolf. Stay hidden and cause confusion.',
-        'day': 'You saw that #username# is the other werewolf.',
-        'day_alt': 'You are the only werewolf. Last night you peeked in an empty house and saw the #role# was out of town.',
+        'description': 'You are a Werewolf. Stay hidden.',
         'win': 'You win if the villagers fail to kill any werewolves.',
         'actions': []
     },
     'robber':
     {
         'title': 'Robber',
-        'night': 'You are the Robber. Choose another player and swap roles with them.',
-        'day': 'You stole #username#\'s role last night. You are now a #role#',
+        'description': 'You are the Robber. Choose another player and swap roles with them.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-one']
     },
     'troublemaker':
     {
         'title': 'Troublemaker',
-        'night': 'You are the Troublemaker. Select two players and swap their roles.',
-        'day': 'You swapped the roles of #username_one# and #username_two#.',
+        'description': 'You are the Troublemaker. Select two players and swap their roles.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-two']
     },
     'insomniac':
     {
         'title': 'Insomniac',
-        'night': 'You are the Insomniac. You will see your role after everyone has gone to sleep.',
-        'day': 'Before finally drifting off to sleep, you saw that you were the #role#.',
+        'description': 'You are the Insomniac. You will see your role after everyone else has gone to sleep.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': []
     },
     'hunter':
     {
         'title': 'Hunter',
-        'night': 'You are the Hunter. If you are killed during voting, the player you voted for also dies.',
-        'day': 'You are the Hunter. If you are killed during voting, the player you voted for also dies.',
+        'description': 'You are the Hunter. If you are killed during voting, the player you voted for also dies.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': []
     },
     'tanner':
     {
         'title': 'Tanner',
-        'night': 'You are the Tanner. You are really sad and hope the villagers vote to kill you.',
-        'day': 'You are the Tanner. You are really sad and hope the villagers vote to kill you.',
+        'description': 'You are the Tanner. You are really sad and hope the villagers vote to kill you.',
         'win': 'You win if the villagers vote to kill you.',
         'actions': []
     },
     'curator':
     {
         'title': 'Curator',
-        'night': 'You are the Curator. Select a player to give them a random item from your collection.',
-        'day': 'You gave #username# an item from your collection.',
+        'description': 'You are the Curator. Select a player to give them a random item from your collection.',
         'win': 'You win if the villagers successfully kill a werewolf.',
         'actions': ['select-one', 'select-self']
     }
