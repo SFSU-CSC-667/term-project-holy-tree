@@ -3,6 +3,16 @@ const router = express.Router();
 const models = require('../models/models');
 
 /* Join a game room*/
+router.get('/join', (req, res, next) => {
+  if( req.session.user.id ) {
+    models.user.alreadyInGame( req.session.user.id )
+      .catch( _ => next() )
+      .then( game_id => res.redirect( `/game/${game_id}` ));
+  } else {
+    next();
+  }
+});
+
 router.get('/join', function(req, res, next) {
   models.game.findAvailable()
     .catch( models.game.create )
