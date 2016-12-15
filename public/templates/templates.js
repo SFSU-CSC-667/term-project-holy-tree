@@ -21,9 +21,9 @@ templates['player_card'] = template({"compiler":[7,">= 4.0.0"],"main":function(c
 templates['player_game_info'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<div class=\"player-game-info\">\n  <h3>The game has started!</h3>\n  <h4>"
+  return "<div class=\"player-game-info\">\n  <h3>"
     + alias4(((helper = (helper = helpers.role || (depth0 != null ? depth0.role : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"role","hash":{},"data":data}) : helper)))
-    + "</h4>\n  <p>"
+    + "</h3>\n  <p>"
     + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
     + "</p>\n  <p>"
     + alias4(((helper = (helper = helpers.supplementary || (depth0 != null ? depth0.supplementary : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"supplementary","hash":{},"data":data}) : helper)))

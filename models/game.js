@@ -66,6 +66,13 @@ class Game {
     );
   }
 
+  collectNightActions ( game_id ) {
+    return this.db.any(
+      "SELECT user_id, role, nightaction_target FROM user_game WHERE game_id = $1;",
+      [ game_id ]
+    ).then( actions => actions.map( action => ({id: action.user_id, role: action.role, target: action.nightaction_target  } )));
+  }
+
 }
 
 module.exports = Game;
