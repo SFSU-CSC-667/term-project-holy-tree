@@ -1,6 +1,5 @@
 const models = require('../models/models');
-const game_config = require('../game_config');
-const roles = require('../roles');
+const game_config = require('../config/game_config');
 const gamestate = require('../models/gamestate');
 
 const socketInit = io => {

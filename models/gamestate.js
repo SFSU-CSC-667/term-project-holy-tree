@@ -1,6 +1,6 @@
-const role_data = require('../roles');
-const artifacts = require('../artifacts');
-const role_definitions = require('../roles');
+const role_data = require('../config/roles');
+const artifacts = require('../config/artifacts');
+const role_definitions = require('../config/roles');
 const underscore = require('underscore');
 
 class Gamestate {
