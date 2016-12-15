@@ -24,7 +24,6 @@
     </div>
 
     <div class="game-info">
-
     </div>
 </div>
 
@@ -54,7 +53,7 @@
 
   socket.on('player joined', function( data ) {
     if (data.id != user_id) {
-      $('.game-board').append(Handlebars.templates.player_card( data ));
+      $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
   });
