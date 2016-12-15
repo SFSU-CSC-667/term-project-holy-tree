@@ -34,10 +34,11 @@
   let user_id = '{{ user_id }}';
   let name = '{{ name }}';
   let game_id = '{{ game_id }}';
-
+  let role_info = null;
 
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
+  /* CHAT Handlers */
   $('form').submit( function(){
     socket.emit('chat message', { message: $('#message-input').val(), name: name, game_id: game_id });
     $('#message-input').val('');
@@ -49,6 +50,8 @@
     $('#messages').append($('<li>').html(`<strong>${msg['name']}:</strong> ${msg['message']}`));
   });
 
+  /* PLAYER Handlers */
+
   socket.on('player joined', function (data) {
     if (data.user_id != user_id) {
       $('.game-board').append(Handlebars.templates.player_card(data));
@@ -57,8 +60,16 @@
   });
 
   socket.on('game starting', function( data ) {
-    if (data.user_id != user_id) {
       $('.game-info').append(Handlebars.templates.player_game_info( data ));
+      role_info = data;
+  });
+
+  $('.player-card').on('click', function () {
+    if ( role_info.action ) {
+      $('.player_card').removeClass('selected');
+      $(this).addClass('selected');
+      socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id'); });
     }
   });
+
 </script>
