@@ -15,10 +15,6 @@
     margin: auto;
 }
 
-.img-circle {
-    border-radius: 50%;
-}
-
 .game-board {
     display: flex;
     flex-direction: row;
@@ -94,6 +90,28 @@
     width:220px;
     height:220px;
     border-radius: 4px;
+}
+
+.mdl-button.md-48 {
+    display: flex;
+    margin: auto;
+    margin-top: 10%;
+    height: 48px;
+    width: 48px;
+    justify-content: center;
+}
+
+.player-card-name {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.material-icons.md-48 { 
+    display: flex;
+    font-size: 48px;
+    justify-content: center; 
 }
 
 .extra-cards .card {
