@@ -4,7 +4,7 @@ const gamestate = require('../models/gamestate');
 
 const socketInit = io => {
 
-  const MAX_PLAYERS = 3;
+  const MAX_PLAYERS = 2;
   const USER_SOCKETS = {};
   const GAME_STATES = {};
 
@@ -38,7 +38,7 @@ const socketInit = io => {
 
       getSubscriptionData( user_id, game_id )
         .then( args => {
-          io.to( game_id ).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
+          io.to( game_id ).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, id: args.user.id });
           io.to( game_id ).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'GAME' });
 
           /* LAUNCHES THE GAME */

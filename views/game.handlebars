@@ -54,7 +54,7 @@
 
   socket.on('player joined', function( data ) {
     if (data.user_id != user_id) {
-      $('.players').append(Handlebars.templates.player_card(data));
+      $('.game-board').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
   });
@@ -68,7 +68,6 @@
     if ( role_info.action ) {
       $('.player-card').removeClass('selected');
       $(this).addClass('selected');
-      console.log( 'EMITITNG: ', { id: user_id, role: role_info.title, target: $(this).data('id') } )
       socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
     }
   });
