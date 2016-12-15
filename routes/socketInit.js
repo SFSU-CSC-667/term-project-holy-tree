@@ -5,7 +5,8 @@ const gamestate = require('../models/gamestate');
 const socketInit = io => {
 
   const MAX_PLAYERS = 3;
-  const user_sockets = {};
+  const USER_SOCKETS = {};
+  const GAME_STATES = {};
 
   const getSubscriptionData = ( user_id, game_id ) => {
     let player_count, user;
@@ -19,7 +20,7 @@ const socketInit = io => {
   const notify_individial_user = ( user ) => {
     user.phase = 'NIGHT';
     user.duration = game_config[MAX_PLAYERS]['night_duration'];
-    user_socket = user_sockets[user.id];
+    user_socket = USER_SOCKETS[user.id];
 
     io.sockets.connected[ user_socket ].emit( 'game starting', user );
   }
@@ -29,8 +30,8 @@ const socketInit = io => {
       const game_id = subscription.game_id;
       const user_id = subscription.user_id;
 
-      if ( !user_sockets.hasOwnProperty( user_id ) ) {
-        user_sockets[user_id] = socket.id;
+      if ( !USER_SOCKETS.hasOwnProperty( user_id ) ) {
+        USER_SOCKETS[user_id] = socket.id;
       }
 
       socket.join( game_id );
@@ -45,9 +46,8 @@ const socketInit = io => {
             let config = game_config[ MAX_PLAYERS ];
             models.game.getUsers( game_id )
               .then( users => {
-                let gamestateInstance = new gamestate( config.roles, config.order, users );
-
-                gamestateInstance.assignUserRoles().forEach( ( user_role ) => {
+                GAME_STATES[ game_id ] = new gamestate( config.roles, config.order, users );
+                GAME_STATES[ game_id ].assignUserRoles().forEach( ( user_role ) => {
                   models.game.updateUserGameRecord( user_role )
                   .then( notify_individial_user )
                   .catch( error => console.log(error) )
