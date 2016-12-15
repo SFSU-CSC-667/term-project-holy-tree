@@ -24,7 +24,7 @@
     </div>
 
     <div class="game-info">
-      <h2><span id='game-player-count'>1</span> / 2 Players</span></h2>
+
     </div>
 </div>
 
@@ -60,6 +60,7 @@
   });
 
   socket.on('game starting', function( data ) {
+      $('.game-info').html('');
       $('.game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
   });
