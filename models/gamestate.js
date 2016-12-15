@@ -108,6 +108,7 @@ class Gamestate {
     this.order.forEach( ( role ) => {
       this.processNightAction( role, this.actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
     });
+    return this.user_roles;
   }
 
   processNightAction( role, action ) {
