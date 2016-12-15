@@ -68,7 +68,7 @@
     if ( role_info.action ) {
       $('.player_card').removeClass('selected');
       $(this).addClass('selected');
-      socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id'); });
+      socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id') } );
     }
   });
 
