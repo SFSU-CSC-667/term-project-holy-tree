@@ -24,7 +24,7 @@
     </div>
 
     <div class="game-info">
-      <h2><span id='game-player-count'>1</span> / 3 Players</span></h2>
+      <h2><span id='game-player-count'>1</span> / 2 Players</span></h2>
     </div>
 </div>
 
@@ -54,8 +54,7 @@
 
   socket.on('player joined', function( data ) {
     if (data.user_id != user_id) {
-      console.log( "PLAYER JOINED: ", data );
-      $('.game-board').append(Handlebars.templates.player_card( data ));
+      $('.players').append(Handlebars.templates.player_card(data));
     }
     $('#game-player-count').text(data.player_count);
   });
@@ -70,7 +69,7 @@
       $('.player-card').removeClass('selected');
       $(this).addClass('selected');
       console.log( 'EMITITNG: ', { id: user_id, role: role_info.title, target: $(this).data('id') } )
-      socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id') } );
+      socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
     }
   });
 
