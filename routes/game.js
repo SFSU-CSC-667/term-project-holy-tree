@@ -7,7 +7,7 @@ router.get('/join', (req, res, next) => {
   if( req.session.user.id ) {
     models.user.alreadyInGame( req.session.user.id )
       .then( game_id => { console.log('GAME ID ', game_id); res.redirect( `/game/${game_id}` ) })
-      .catch( error => { console.log(error); next(); } );
+      .catch( error => { next(); } );
   } else {
     next();
   }
