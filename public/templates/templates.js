@@ -10,9 +10,9 @@ templates['navbar'] = template({"compiler":[7,">= 4.0.0"],"main":function(contai
 templates['player_card'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<div class=\"player-card mdl-card mdl-shadow--2dp\" data-id='"
+  return "<div class=\"player-card mdl-card mdl-shadow--2dp\" data-id=\""
     + alias4(((helper = (helper = helpers.user_id || (depth0 != null ? depth0.user_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"user_id","hash":{},"data":data}) : helper)))
-    + "' style='background: url(\""
+    + "\" style='background: url(\""
     + alias4(((helper = (helper = helpers.profile_pic || (depth0 != null ? depth0.profile_pic : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile_pic","hash":{},"data":data}) : helper)))
     + "\") center center no-repeat;'>\n  <div class=\"mdl-card__title mdl-card--expand\"></div>\n  <div class=\"mdl-card__actions\">\n    <span class=\"player-card-name\">"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
@@ -21,10 +21,12 @@ templates['player_card'] = template({"compiler":[7,">= 4.0.0"],"main":function(c
 templates['player_game_info'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<div class=\"player-game-info\">\n  <h3>The game has started!</h3>\n  <h3>"
-    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</h3>\n  <p>"
+  return "<div class=\"player-game-info\">\n  <h3>The game has started!</h3>\n  <h4>"
+    + alias4(((helper = (helper = helpers.role || (depth0 != null ? depth0.role : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"role","hash":{},"data":data}) : helper)))
+    + "</h4>\n  <p>"
     + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
+    + "</p>\n  <p>"
+    + alias4(((helper = (helper = helpers.supplementary || (depth0 != null ? depth0.supplementary : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"supplementary","hash":{},"data":data}) : helper)))
     + "</p>\n  <p>"
     + alias4(((helper = (helper = helpers.win || (depth0 != null ? depth0.win : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"win","hash":{},"data":data}) : helper)))
     + "</p>\n</div>\n";

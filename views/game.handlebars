@@ -34,7 +34,7 @@
   let user_id = '{{ user_id }}';
   let name = '{{ name }}';
   let game_id = '{{ game_id }}';
-  let role_info = null;
+  let role_info = {};
 
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
@@ -52,9 +52,10 @@
 
   /* PLAYER Handlers */
 
-  socket.on('player joined', function (data) {
+  socket.on('player joined', function( data ) {
     if (data.user_id != user_id) {
-      $('.game-board').append(Handlebars.templates.player_card(data));
+      console.log( "PLAYER JOINED: ", data );
+      $('.game-board').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
   });
@@ -66,9 +67,10 @@
 
   $('.player-card').on('click', function () {
     if ( role_info.action ) {
-      $('.player_card').removeClass('selected');
+      $('.player-card').removeClass('selected');
       $(this).addClass('selected');
-      socket.emit('night-action', { id: user_id, role: role_info.title, target: $(this).data('id') } );
+      console.log( 'EMITITNG: ', { id: user_id, role: role_info.title, target: $(this).data('id') } )
+      socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id') } );
     }
   });
 
