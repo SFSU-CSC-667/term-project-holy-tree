@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 3;
+    this.MAX_PLAYERS = 2;
   }
 
   findAvailable () {
@@ -52,11 +52,18 @@ class Game {
     );
   }
 
-  updateUserGameRecord ( user ) {
+  updateUserGameRecord ( user, game_id ) {
       return this.db.any(
-        "UPDATE user_game SET role = $1, item = $2 WHERE user_id = $3;",
-        [ user.role, user.item, user.id ]
+        "UPDATE user_game SET role = $1, item = $2 WHERE user_id = $3 AND game_id = $4;",
+        [ user.role, user.item, user.id, game_id ]
       ).then( _ => user );
+  }
+
+  updateNightAction ( action ) {
+    return this.db.none(
+      "UPDATE user_game SET nightaction_target = $1 WHERE user_id = $2 AND game_id = $3;",
+      [ action.target, action.id, action.game_id ]
+    );
   }
 
 }

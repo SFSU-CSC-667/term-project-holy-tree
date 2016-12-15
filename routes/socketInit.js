@@ -48,13 +48,12 @@ const socketInit = io => {
               .then( users => {
                 GAME_STATES[ game_id ] = new gamestate( config.roles, config.order, users );
                 GAME_STATES[ game_id ].assignUserRoles().forEach( ( user_role ) => {
-                  models.game.updateUserGameRecord( user_role )
+                  models.game.updateUserGameRecord( user_role, game_id )
                   .then( notify_individial_user )
                   .catch( error => console.log(error) )
                 });
               })
           }
-
         })
         .catch( error => { console.log(error) });
     });
@@ -66,6 +65,13 @@ const socketInit = io => {
         name: data.name
       });
     });
+
+    socket.on('night action', data => {
+      console.log(data);
+      models.game.updateNightAction( data );
+    });
+
+
   });
 };
 
