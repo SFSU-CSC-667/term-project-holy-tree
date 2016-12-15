@@ -46,23 +46,17 @@ class Game {
   }
 
   getUsers ( game_id ) {
-      return this.db.any(
-          "SELECT DISTINCT users.id, users.name, users.profile_pic FROM user_game JOIN users on user_game.user_id = users.id WHERE game_id = $1;",
-          [ game_id ]
-        );
-    }
-
-  setUserGameRole ( user_id, role ) {
-      return this.db.one(
-        "UPDATE user_game SET role = $1 WHERE user_id = $2 RETURNING user_id, role;",
-        [ role, user_id ]
-      );
+    return this.db.any(
+      "SELECT DISTINCT users.id, users.name, users.profile_pic FROM user_game JOIN users on user_game.user_id = users.id WHERE game_id = $1;",
+      [ game_id ]
+    );
   }
 
-  setup ( game_id, roles ) {
-      return this.getUsers( game_id )
-        .then( users => underscore.shuffle( users ) )
-        .then( shuffled => shuffled.map( ( user, i ) => this.setUserGameRole( user.id,roles[i] )));
+  updateUserGameRecord ( user ) {
+      return this.db.any(
+        "UPDATE user_game SET role = $1, item = $2 WHERE user_id = $3;",
+        [ user.role, user.item, user.id ]
+      ).then( _ => user );
   }
 
 }

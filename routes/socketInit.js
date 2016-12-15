@@ -1,7 +1,7 @@
 const models = require('../models/models');
 const game_config = require('../game_config');
 const roles = require('../roles');
-
+const gamestate = require('../models/gamestate');
 
 const socketInit = io => {
 
@@ -18,23 +18,11 @@ const socketInit = io => {
   }
 
   const notify_individial_user = ( user ) => {
-    let user_socket = user_sockets[ user.user_id ];
-    let user_role = roles[ user.role ];
-    io.sockets.connected[ user_socket ]
-      .emit('game starting',
-        {
-          role: {
-            title: user_role.title,
-            description: user_role.night,
-            win: user_role.win,
-            actions: user_role.actions,
-            item: null,
-            muted: false
-          },
-          phase: 'NIGHT',
-          duration: game_config[MAX_PLAYERS]['night_duration']
-        }
-      );
+    user.phase = 'NIGHT';
+    user.duration = game_config[MAX_PLAYERS]['night_duration'];
+    user_socket = user_sockets[user.id];
+
+    io.sockets.connected[ user_socket ].emit( 'game starting', user );
   }
 
   io.on('connection', socket => {
@@ -53,9 +41,19 @@ const socketInit = io => {
           io.to( game_id ).emit('player joined', { player_count: args.player_count, name: args.user.name, profile_pic: args.user.profile_pic, user_id: args.user.id });
           io.to( game_id ).emit('chat message', { message: `${args.user.name} has joined the game`, name: 'GAME' });
 
+          /* LAUNCHES THE GAME */
           if( args.player_count == MAX_PLAYERS ) {
-            models.game.setup( game_id, game_config[MAX_PLAYERS]['roles'] )
-              .then( users => { users.forEach( user => { user.then( notify_individial_user )})})
+            let config = game_config[ MAX_PLAYERS ];
+            models.game.getUsers( game_id )
+              .then( users => {
+                let gamestateInstance = new gamestate( config.roles, config.order, users );
+
+                gamestateInstance.assignUserRoles().forEach( ( user_role ) => {
+                  models.game.updateUserGameRecord( user_role )
+                  .then( notify_individial_user )
+                  .catch( error => console.log(error) )
+                });
+              })
           }
 
         })
