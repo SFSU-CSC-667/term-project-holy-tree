@@ -28,7 +28,7 @@ class Gamestate {
             description: role_definitions[role].description,
             supplementary: "",
             win: role_definitions[role].win,
-            actions: role_definitions[role],
+            action: role_definitions[role],
             artifact: null,
             muted: false
           });
