@@ -30,7 +30,7 @@ const socketInit = io => {
       const game_id = subscription.game_id;
       const user_id = subscription.user_id;
 
-      if ( !USER_SOCKETS.hasOwnProperty( user_id ) ) {
+      if ( !USER_SOCKETS[ user_id ] ) {
         USER_SOCKETS[user_id] = socket.id;
       }
 
