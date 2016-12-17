@@ -34,10 +34,18 @@ const socketInit = io => {
   }
 
   const performNightActions = ( game_id ) => {
+    let gamestate = GAME_STATES[ game_id ];
+
     models.game.collectNightActions( game_id )
-      .then( GAME_STATES[ game_id ].performNightActions.bind( GAME_STATES[ game_id ] ))
-      .then( user_roles => {
-        user_roles.forEach( notify_individial_user_daytime );
+      .then( gamestate.performNightActions.bind( gamestate ) )
+      .then( user_roles => { user_roles.forEach( notify_individial_user_daytime ) });
+      .then( _ => {
+        setTimeout(
+          () => {
+            io.to( game_id ).emit( 'voting phase starting', { duration: game_config[MAX_PLAYERS]['voting_duration'] })
+          },
+          ( game_config[MAX_PLAYERS]['day_duration'] + 2 ) * 1000
+        )
       });
   }
 
@@ -65,8 +73,8 @@ const socketInit = io => {
                 GAME_STATES[ game_id ] = new gamestate( config.roles, config.order, users );
                 GAME_STATES[ game_id ].assignUserRoles().forEach( ( user_role ) => {
                   models.game.updateUserGameRecord( user_role, game_id )
-                  .then( notify_individial_user_night_time )
-                  .catch( error => console.log(error) )
+                    .then( notify_individial_user_night_time )
+                    .catch( error => console.log(error) )
                 })
               }).then( _ => {
                 setTimeout(
