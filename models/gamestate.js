@@ -104,6 +104,7 @@ class Gamestate {
 
   // [ {id, role, target} ]
   performNightActions( actions ) {
+    console.log(actions);
     this.order.forEach( ( role ) => {
       this.processNightAction( role, actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
     });

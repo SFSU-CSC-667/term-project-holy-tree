@@ -38,7 +38,7 @@ const socketInit = io => {
 
     models.game.collectNightActions( game_id )
       .then( gamestate.performNightActions.bind( gamestate ) )
-      .then( user_roles => { user_roles.forEach( notify_individial_user_daytime ) });
+      .then( user_roles => { user_roles.forEach( notify_individial_user_daytime ) })
       .then( _ => {
         setTimeout(
           () => {
