@@ -1,5 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { height: 100%; background-color:rgb(245,245,245); }
+html { height: 100%;  }
 body { font: 13px Helvetica, Arial; height:100%; }
 #messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
