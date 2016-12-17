@@ -12,7 +12,6 @@ class Gamestate {
 
 
     this.user_roles = [];                                // { id, name, role, description, supplementary, win, actions, artifact, muted }
-    this.actions = {};                                  // [{id: 1, target: [2,3]}, ]
     this.votes = {};                                    // [{id: 1, vote: 4}, ]
 
   }
@@ -106,8 +105,8 @@ class Gamestate {
   // [ {id, role, target} ]
   performNightActions( actions ) {
     this.order.forEach( ( role ) => {
-      this.processNightAction( role, this.actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
-    }).bind( this );
+      this.processNightAction( role, actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
+    });
     return this.user_roles;
   }
 
