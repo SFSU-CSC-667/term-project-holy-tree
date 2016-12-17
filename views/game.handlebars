@@ -25,7 +25,7 @@
 
     <div class="game-info">
       <div class="time-info">
-        Night Phase ends in: <span id="counter"></span> seconds.
+        This phase ends in: <span id="counter"></span> seconds.
       </div>
       <div class="player-game-info"></div>
     </div>
@@ -55,6 +55,13 @@
     }, duration * 1000 );
   }
 
+  const registerDayPhaseTimeout = function( duration ) {
+    let timeout = setTimeout( function() {
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Time to look at the results'));
+      clearTimeout( timeout );
+    }, duration * 1000 );
+  }
+
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
   /* CHAT Handlers */
@@ -78,12 +85,20 @@
     $('#game-player-count').text(data.player_count);
   });
 
-  socket.on('game starting', function( data ) {
+  socket.on('night phase starting', function( data ) {
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
       displayCountdown( data.duration );
       registerNightPhaseTimeout( data.duration );
+  });
+
+  socket.on('day phase starting', function( data ) {
+      $('.player-game-info').html('');
+      $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
+      role_info = data;
+      displayCountdown( data.duration );
+      registerDayPhaseTimeout( data.duration );
   });
 
   $('.player-card').on('click', function () {

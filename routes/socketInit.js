@@ -22,7 +22,7 @@ const socketInit = io => {
     user.duration = game_config[MAX_PLAYERS]['night_duration'];
     user_socket = USER_SOCKETS[user.id];
 
-    io.sockets.connected[ user_socket ].emit( 'game starting', user );
+    io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
   }
 
   const notify_individial_user_daytime = ( user ) => {
@@ -30,13 +30,15 @@ const socketInit = io => {
     user.duration = game_config[MAX_PLAYERS]['day_duration'];
     user_socket = USER_SOCKETS[user.id];
 
-    io.sockets.connected[ user_socket ].emit( 'game starting', user );
+    io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
   }
 
   const performNightActions = ( game_id ) => {
     models.game.collectNightActions( game_id )
       .then( GAME_STATES[ game_id ].performNightActions.bind( GAME_STATES[ game_id ] ))
-      .then( user_roles => { user_roles.forEach( notify_individial_user_daytime ) });
+      .then( user_roles => {
+        user_roles.forEach( notify_individial_user_daytime );
+      });
   }
 
   io.on('connection', socket => {
