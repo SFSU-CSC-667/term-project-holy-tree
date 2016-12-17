@@ -24,7 +24,10 @@
     </div>
 
     <div class="game-info">
-      <div id="counter"></div>
+      <div class="time-info">
+        Night Phase ends in: <span id="counter"></span> seconds.
+      </div>
+      <div class="player-game-info"></div>
     </div>
 </div>
 
@@ -37,11 +40,11 @@
   let role_info = {};
 
   const displayCountdown = function( duration ) {
-    let counter = 0;
+    let counter = duration;
     let interval = setInterval( function() {
-      counter++;
+      counter--;
       $('.game-info #counter').text( counter )
-      if ( counter == duration ) { clearInterval(interval); }
+      if ( counter == 0 ) { clearInterval(interval); }
     }, 1000);
   };
 
@@ -76,8 +79,8 @@
   });
 
   socket.on('game starting', function( data ) {
-      $('.game-info').html('');
-      $('.game-info').append(Handlebars.templates.player_game_info( data ));
+      $('.player-game-info').html('');
+      $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
       displayCountdown( data.duration );
       registerNightPhaseTimeout( data.duration );

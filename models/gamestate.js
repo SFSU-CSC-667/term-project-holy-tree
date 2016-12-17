@@ -103,11 +103,11 @@ class Gamestate {
     }
   }
 
-  // [{id, role, target} ]
-  performNightActions ( actions ) {
+  // [ {id, role, target} ]
+  performNightActions( actions ) {
     this.order.forEach( ( role ) => {
       this.processNightAction( role, this.actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
-    });
+    }).bind( this );
     return this.user_roles;
   }
 
