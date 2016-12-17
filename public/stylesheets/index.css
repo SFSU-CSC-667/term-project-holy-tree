@@ -1,11 +1,11 @@
 body {
-  
+  background-color:rgb(60,60,66);
   margin-top: -25px;
 }
 
 .welcome {
   display: flex;
-  padding-top: 125px;
+  padding-top: 50px;
   font-family: creepster, sans-serif;
   font-size: 100px;
   color: rgb(103,101,143);
