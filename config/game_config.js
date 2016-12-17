@@ -2,7 +2,7 @@ const game_config =
 {   
     2: {
         roles: ['werewolf', 'seer', 'hunter', 'robber', 'curator'],
-        order: ['werewolf', 'seer'],
+        order: ['werewolf', 'seer', 'robber', 'curator'],
         night_duration: 15,
         day_duration: 140
     },
