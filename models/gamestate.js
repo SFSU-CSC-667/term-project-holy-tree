@@ -12,7 +12,6 @@ class Gamestate {
 
 
     this.user_roles = [];                                // { id, name, role, description, supplementary, win, actions, artifact, muted }
-    this.actions = {};                                  // [{id: 1, target: [2,3]}, ]
     this.votes = {};                                    // [{id: 1, vote: 4}, ]
 
   }
@@ -28,7 +27,7 @@ class Gamestate {
             description: role_definitions[role].description,
             supplementary: "",
             win: role_definitions[role].win,
-            action: role_definitions[role],
+            action: role_definitions[role].action,
             artifact: null,
             muted: false
           });
@@ -53,6 +52,8 @@ class Gamestate {
 
   setSupplementaryText ( id, text ) {
     let index = this.user_roles.find( ( user ) => user.id == id );
+    console.log("INDEX: --------> ", index);
+    console.log("USER: --------> ", this.user_roles[index]);
     this.user_roles[index].supplementary = text;
   }
 
@@ -103,10 +104,11 @@ class Gamestate {
     }
   }
 
-  // [{id, role, target} ]
-  performNightActions ( actions ) {
+  // [ {id, role, target} ]
+  performNightActions( actions ) {
+    console.log( "Perform Night Actions: ", actions );
     this.order.forEach( ( role ) => {
-      this.processNightAction( role, this.actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
+      this.processNightAction( role, actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
     });
     return this.user_roles;
   }
