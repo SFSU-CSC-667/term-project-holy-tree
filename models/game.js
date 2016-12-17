@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 3;
+    this.MAX_PLAYERS = 2;
   }
 
   findAvailable () {
@@ -23,11 +23,11 @@ class Game {
       ).bind( this );
   }
 
-  incrementPlayerCount ( game_id ) {
+  getPlayerCount ( game_id ) {
       return this.db.one(
-        "UPDATE games SET player_count = player_count + 1 WHERE id = $1 RETURNING player_count;",
-        [game_id],
-        data => data.player_count
+        "SELECT COUNT(*) FROM user_game WHERE game_id = $1;",
+        [ game_id ],
+        data => data.count
       );
    }
 
@@ -46,23 +46,31 @@ class Game {
   }
 
   getUsers ( game_id ) {
-      return this.db.any(
-          "SELECT DISTINCT users.id, users.name, users.profile_pic FROM user_game JOIN users on user_game.user_id = users.id WHERE game_id = $1;",
-          [ game_id ]
-        );
-    }
-
-  setUserGameRole ( user_id, role ) {
-      return this.db.one(
-        "UPDATE user_game SET role = $1 WHERE user_id = $2 RETURNING user_id, role;",
-        [ role, user_id ]
-      );
+    return this.db.any(
+      "SELECT DISTINCT users.id, users.name, users.profile_pic FROM user_game JOIN users on user_game.user_id = users.id WHERE game_id = $1;",
+      [ game_id ]
+    );
   }
 
-  setup ( game_id, roles ) {
-      return this.getUsers( game_id )
-        .then( users => underscore.shuffle( users ) )
-        .then( shuffled => shuffled.map( (user, i) => this.setUserGameRole(user,roles[i])));
+  updateUserGameRecord ( user, game_id ) {
+      return this.db.any(
+        "UPDATE user_game SET role = $1, item = $2 WHERE user_id = $3 AND game_id = $4;",
+        [ user.role, user.item, user.id, game_id ]
+      ).then( _ => user );
+  }
+
+  updateNightAction ( action ) {
+    return this.db.none(
+      "UPDATE user_game SET nightaction_target = $1 WHERE user_id = $2 AND game_id = $3;",
+      [ action.target, action.id, action.game_id ]
+    );
+  }
+
+  collectNightActions ( game_id ) {
+    return this.db.any(
+      "SELECT user_id, role, nightaction_target FROM user_game WHERE game_id = $1;",
+      [ game_id ]
+    ).then( actions => actions.map( action => ({id: action.user_id, role: action.role, target: action.nightaction_target  } )));
   }
 
 }

@@ -24,7 +24,10 @@
     </div>
 
     <div class="game-info">
-      <h2><span id='game-player-count'>1</span> / 3 Players</span></h2>
+      <div class="time-info">
+        This phase ends in: <span id="counter"></span> seconds.
+      </div>
+      <div class="player-game-info"></div>
     </div>
 </div>
 
@@ -34,10 +37,34 @@
   let user_id = '{{ user_id }}';
   let name = '{{ name }}';
   let game_id = '{{ game_id }}';
+  let role_info = {};
 
+  const displayCountdown = function( duration ) {
+    let counter = duration;
+    let interval = setInterval( function() {
+      counter--;
+      $('.game-info #counter').text( counter )
+      if ( counter == 0 ) { clearInterval(interval); }
+    }, 1000);
+  };
+
+  const registerNightPhaseTimeout = function( duration ) {
+    let timeout = setTimeout( function() {
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Night Phase is over! You are now in the Day Phase'));
+      clearTimeout( timeout );
+    }, duration * 1000 );
+  }
+
+  const registerDayPhaseTimeout = function( duration ) {
+    let timeout = setTimeout( function() {
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Time to look at the results'));
+      clearTimeout( timeout );
+    }, duration * 1000 );
+  }
 
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
 
+  /* CHAT Handlers */
   $('form').submit( function(){
     socket.emit('chat message', { message: $('#message-input').val(), name: name, game_id: game_id });
     $('#message-input').val('');
@@ -49,18 +76,37 @@
     $('#messages').append($('<li>').html(`<strong>${msg['name']}:</strong> ${msg['message']}`));
   });
 
-  socket.on('player joined', function (data) {
-    if (data.user_id != user_id) {
-      $('.game-board').append(Handlebars.templates.player_card(data));
+  /* PLAYER Handlers */
+
+  socket.on('player joined', function( data ) {
+    if (data.id != user_id) {
+      $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
   });
 
-  socket.on('game starting', function( data ) {
-    console.log(data);
+  socket.on('night phase starting', function( data ) {
+      $('.player-game-info').html('');
+      $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
+      role_info = data;
+      displayCountdown( data.duration );
+      registerNightPhaseTimeout( data.duration );
   });
 
-  socket.on('private message', function( data ) {
-    console.log(data);
+  socket.on('day phase starting', function( data ) {
+      $('.player-game-info').html('');
+      $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
+      role_info = data;
+      displayCountdown( data.duration );
+      registerDayPhaseTimeout( data.duration );
   });
+
+  $('.player-card').on('click', function () {
+    if ( role_info.action ) {
+      $('.player-card').removeClass('selected');
+      $(this).addClass('selected');
+      socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
+    }
+  });
+
 </script>

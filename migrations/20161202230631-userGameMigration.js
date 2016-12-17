@@ -20,6 +20,7 @@ exports.up = function(db, callback) {
     user_id: 'int',
     game_id: 'int',
     role: 'string',
+    nightaction_target: 'int',
     item: 'string',
     vote: 'int'
   }, callback);
