@@ -60,7 +60,14 @@
 
   const registerDayPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
-      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Time to look at the results'));
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Start voting'));
+      clearTimeout( timeout );
+    }, duration * 1000 );
+  }
+
+  const registerVotingPhaseTimeout = function ( duration ) {
+    let timeout = setTimeout( function() {
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Voting Phase is over! Time to look at the results'));
       clearTimeout( timeout );
     }, duration * 1000 );
   }
@@ -90,6 +97,7 @@
   });
 
   socket.on('night phase starting', function( data ) {
+      console.log("NIGHT PHASE STARTING: ", data);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
@@ -98,6 +106,7 @@
   });
 
   socket.on('day phase starting', function( data ) {
+      console.log("DAY PHASE STARTING: ", data);
       $('.player-card').removeClass('selected').prop('onclick',null);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
@@ -106,12 +115,20 @@
       registerDayPhaseTimeout( data.duration );
   });
 
-  socket.on('voting phase starting', function( data ) {
+  socket.on('voting phase starting', function( phase_data ) {
+    console.log("VOTING PHASE STARTING: ", phase_data);
     $('.player-card').on('click', function () {
       $('.player-card').removeClass('selected');
       $(this).addClass('selected');
       socket.emit( 'player vote', { game: game_id, id: user_id, target: $(this).data('id')  } );
     });
+    displayCountdown( phase_data.duration );
+    registerVotingPhaseTimeout( phase_data.duration );
+  });
+
+  socket.on('voting phase ended', function ( results ) {
+    console.log("VOTING PHASE ENDED: ", results);
+    // display voting results to players
   });
 
 </script>

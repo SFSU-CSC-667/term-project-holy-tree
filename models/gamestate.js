@@ -5,7 +5,7 @@ const underscore = require('underscore');
 class Gamestate {
 
   constructor ( roles, order, users ) {
-    this.roles = underscore.shuffle(roles); 
+    this.roles = underscore.shuffle(roles);
     this.order = order;
     this.users = users;
     this.user_roles = [];
@@ -124,7 +124,7 @@ class Gamestate {
       case 'robber':
         if( action && action.target ) {
           let target_user = this.getUserById(action.target);
-          this.updateUserAttributes( action.id, { 
+          this.updateUserAttributes( action.id, {
             role: target_user.role,
             displayRole: target_user.role,
             description: role_definitions[target_user.role].description,
@@ -155,9 +155,9 @@ class Gamestate {
 
   }
 
-  // [ {1,2}, {2,1} ]
-  processVoteActions (  ) {
-    return;
+  // [ [1,2], [2,1] ]
+  performVoteActions ( ) {
+    return { won: "villagers", most_votes: 1 }; // this is just for testing
   }
 
 }
