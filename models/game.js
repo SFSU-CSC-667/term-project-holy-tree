@@ -82,7 +82,7 @@ class Game {
 
   collectVoteActions ( game_id ) {
     return this.db.any(
-      "SELECT u.id, ug.vote FROM user_game ug JOIN user u ON ug.user_id = u.id WHERE game_id = $1",
+      "SELECT u.id, ug.vote FROM user_game ug JOIN users u ON ug.user_id = u.id WHERE ug.game_id = $1",
       [ game_id ]
     );
   }
