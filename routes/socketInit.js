@@ -113,6 +113,11 @@ const socketInit = io => {
       models.game.updateNightAction( data );
     });
 
+    socket.on('player vote', data => {
+      console.log(data);
+      models.game.updateVoteAction(data);
+    });
+
 
   });
 };
