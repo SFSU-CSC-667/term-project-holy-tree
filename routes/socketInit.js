@@ -25,20 +25,16 @@ const socketInit = io => {
     io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
   }
 
-  const notify_individial_user_daytime = ( user ) => {
-    user.phase = 'DAY';
-    user.duration = game_config[MAX_PLAYERS]['day_duration'];
-    user_socket = USER_SOCKETS[user.id];
-
-    io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
-  }
 
   const performNightActions = ( game_id ) => {
     let gamestate = GAME_STATES[ game_id ];
 
     models.game.collectNightActions( game_id )
       .then( gamestate.performNightActions.bind( gamestate ) )
-      .then( user_roles => { user_roles.forEach( notify_individial_user_daytime ) })
+      .then( user_roles => { 
+        console.log('NIGHTACTIONSRETURNED: ' + JSON.stringify(user_roles));
+        user_roles.forEach( notify_individial_user_daytime ) 
+      })
       .then( _ => {
         setTimeout(
           () => {
@@ -48,6 +44,23 @@ const socketInit = io => {
         )
       });
   }
+
+  const notify_individial_user_daytime = ( user ) => {
+    user.phase = 'DAY';
+    user.duration = game_config[MAX_PLAYERS]['day_duration'];
+    user_socket = USER_SOCKETS[user.id];
+
+    io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
+  }
+
+  const performVoteActions = ( game_id ) => {
+    let gamestate = GAME_STATES[ game_id ];
+
+    models.game.collectVoteActions( game_id )
+      .then( gamestate.performVoteActions.bind( gamestate ) );
+  }
+
+
 
   io.on('connection', socket => {
     socket.on('subscribe to game', subscription => {

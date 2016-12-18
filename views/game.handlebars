@@ -1,16 +1,9 @@
 <div class='game-board mdl-color--blue-grey-50'>
+  <div class='time-info'><span id='counter'>Game Starting Soon</span></div>
   <div class='players'>
     {{#each users }}
       {{> player_card this }}
     {{/each}}
-  </div>
-  <div class='extra-cards'>
-    <div class='card'>
-    </div>
-    <div class='card'>
-    </div>
-    <div class='card'>
-    </div>
   </div>
 </div>
 
@@ -24,10 +17,8 @@
     </div>
 
     <div class="game-info">
-      <div class="time-info">
-        This phase ends in: <span id="counter"></span> seconds.
+      <div class="player-game-info">
       </div>
-      <div class="player-game-info"></div>
     </div>
 </div>
 
@@ -39,11 +30,23 @@
   let game_id = '{{ game_id }}';
   let role_info = {};
 
+  const registerPlayerClickListener = function () {
+    $('.player-card').on('click', function () {
+      if ( role_info.action && $(this).data('id') != user_id ) {
+        $('.player-card').removeClass('selected');
+        $(this).addClass('selected');
+        socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
+      }
+    });
+  }
+
   const displayCountdown = function( duration ) {
     let counter = duration;
     let interval = setInterval( function() {
       counter--;
-      $('.game-info #counter').text( counter )
+      let minutes = Math.floor( counter / 60 );
+      let seconds = ( counter % 60 < 10 ) ? '0' + counter % 60 : counter % 60;
+      $('#counter').text(`${minutes}:${seconds}`);
       if ( counter == 0 ) { clearInterval(interval); }
     }, 1000);
   };
@@ -83,6 +86,7 @@
       $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
+    registerPlayerClickListener();
   });
 
   socket.on('night phase starting', function( data ) {
@@ -94,6 +98,7 @@
   });
 
   socket.on('day phase starting', function( data ) {
+      $('.player-card').removeClass('selected').prop('onclick',null);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
@@ -101,12 +106,12 @@
       registerDayPhaseTimeout( data.duration );
   });
 
-  $('.player-card').on('click', function () {
-    if ( role_info.action ) {
+  socket.on('voting phase starting', function( data ) {
+    $('.player-card').on('click', function () {
       $('.player-card').removeClass('selected');
       $(this).addClass('selected');
-      socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
-    }
+      socket.emit( 'player vote', { game: game_id, id: user_id, target: $(this).data('id')  } );
+    });
   });
 
 </script>

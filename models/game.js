@@ -73,6 +73,19 @@ class Game {
     ).then( actions => actions.map( action => ({id: action.user_id, role: action.role, target: action.nightaction_target  } )));
   }
 
+  updateVoteAction ( action ) {
+    return this.db.none(
+      "UPDATE user_game SET vote = $1 WHERE game_id = $2 and user_id = $3",
+      [ action.target, action.game, action.id ]
+    );
+  }
+
+  collectVoteActions ( game_id ) {
+    return this.db.any(
+      "SELECT u.id, ug.vote FROM user_game ug JOIN user u ON ug.user_id = u.id WHERE game_id = $1",
+      [ game_id ]
+    );
+  }
 }
 
 module.exports = Game;
