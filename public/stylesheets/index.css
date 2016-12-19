@@ -30,6 +30,10 @@
 
 }
 
+.center {
+  margin-top: 50%;
+}
+
 .description {
   display: flex;
   justify-content: space-around;
@@ -68,7 +72,6 @@
 /*     Brook's Additions          */
 
 .join-game-page {
-
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -81,6 +84,7 @@
   width:25%;
   height:600px;
   padding:10px 20px;
+  margin-bottom: 60px;
 }
 
 .join-game-page .mdl-card h3, .mdl-card h5 {
