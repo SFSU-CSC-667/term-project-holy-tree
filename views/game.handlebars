@@ -1,16 +1,10 @@
-<div class='game-board'>
+
+<div class='game-board mdl-color--blue-grey-50'>
+  <div class='time-info'><span id='counter'>Game Starting Soon</span></div>
   <div class='players'>
     {{#each users }}
       {{> player_card this }}
     {{/each}}
-  </div>
-  <div class='extra-cards'>
-    <div class='card'>
-    </div>
-    <div class='card'>
-    </div>
-    <div class='card'>
-    </div>
   </div>
 </div>
 
@@ -24,10 +18,8 @@
     </div>
 
     <div class="game-info">
-      <div class="time-info">
-        This phase ends in: <span id="counter"></span> seconds.
+      <div class="player-game-info">
       </div>
-      <div class="player-game-info"></div>
     </div>
 </div>
 
@@ -38,11 +30,24 @@
   let name = '{{ name }}';
   let game_id = '{{ game_id }}';
   let role_info = {};
+
+  const registerPlayerClickListener = function () {
+    $('.player-card').on('click', function () {
+      if ( role_info.action && $(this).data('id') != user_id ) {
+        $('.player-card').removeClass('selected');
+        $(this).addClass('selected');
+        socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
+      }
+    });
+  }
+
   const displayCountdown = function( duration ) {
     let counter = duration;
     let interval = setInterval( function() {
       counter--;
-      $('.game-info #counter').text( counter )
+      let minutes = Math.floor( counter / 60 );
+      let seconds = ( counter % 60 < 10 ) ? '0' + counter % 60 : counter % 60;
+      $('#counter').text(`${minutes}:${seconds}`);
       if ( counter == 0 ) { clearInterval(interval); }
     }, 1000);
   };
@@ -54,8 +59,16 @@
   }
   const registerDayPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
-      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Time to look at the results'));
+
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Start voting'));
       $('.game-board').css('background', 'url(/images/vote.png) no-repeat');
+      clearTimeout( timeout );
+    }, duration * 1000 );
+  }
+
+  const registerVotingPhaseTimeout = function ( duration ) {
+    let timeout = setTimeout( function() {
+      $('#messages').append($('<li>').html('<strong>GAME:</strong> Voting Phase is over! Time to look at the results'));
       clearTimeout( timeout );
     }, duration * 1000 );
   }
@@ -75,8 +88,10 @@
       $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
+    registerPlayerClickListener();
   });
   socket.on('night phase starting', function( data ) {
+      console.log("NIGHT PHASE STARTING: ", data);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       $('.game-board').css('background', 'url(/images/night.png) no-repeat');
@@ -85,6 +100,8 @@
       registerNightPhaseTimeout( data.duration );
   });
   socket.on('day phase starting', function( data ) {
+      console.log("DAY PHASE STARTING: ", data);
+      $('.player-card').removeClass('selected').prop('onclick',null);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       $('.game-board').css('background', 'url(/images/day.png) no-repeat');
@@ -92,11 +109,20 @@
       displayCountdown( data.duration );
       registerDayPhaseTimeout( data.duration );
   });
-  $('.player-card').on('click', function () {
-    if ( role_info.action ) {
+  
+  socket.on('voting phase starting', function( phase_data ) {
+    console.log("VOTING PHASE STARTING: ", phase_data);
+    $('.player-card').on('click', function () {
       $('.player-card').removeClass('selected');
       $(this).addClass('selected');
-      socket.emit('night action', { id: user_id, role: role_info.title, target: $(this).data('id'), game_id: game_id } );
-    }
+      socket.emit( 'player vote', { game: game_id, id: user_id, target: $(this).data('id')  } );
+    });
+    displayCountdown( phase_data.duration );
+    registerVotingPhaseTimeout( phase_data.duration );
+  });
+
+  socket.on('voting phase ended', function ( results ) {
+    console.log("VOTING PHASE ENDED: ", results);
+    // display voting results to players
   });
 </script>

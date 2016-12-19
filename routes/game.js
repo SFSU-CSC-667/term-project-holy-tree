@@ -24,7 +24,6 @@ router.get('/join', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     models.game.getUsers(req.params.id)
     .then( users => {
-        console.log( "RENDERING: ", users )
         res.render( 'game', { game_id: req.params.id, user_id: req.session.user.id, name: req.session.user.name, users: users })
     });
 });

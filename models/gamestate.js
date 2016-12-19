@@ -1,4 +1,3 @@
-const role_data = require('../config/roles');
 const artifacts = require('../config/artifacts');
 const role_definitions = require('../config/roles');
 const underscore = require('underscore');
@@ -6,14 +5,11 @@ const underscore = require('underscore');
 class Gamestate {
 
   constructor ( roles, order, users ) {
-    this.roles = underscore.shuffle(roles);             // ['wolf', 'seer']
-    this.order = order;                                 // ['seer']
-    this.users = users;                                 // [{id: 1, name: 'brook'}
-
-
-    this.user_roles = [];                                // { id, name, role, description, supplementary, win, actions, artifact, muted }
-    this.votes = {};                                    // [{id: 1, vote: 4}, ]
-
+    this.roles = underscore.shuffle(roles);
+    this.order = order;
+    this.users = users;
+    this.user_roles = [];
+    this.votes = {};
   }
 
   assignUserRoles ( ) {
@@ -24,8 +20,9 @@ class Gamestate {
             id: user.id,
             name: user.name,
             role: role,
+            displayRole: role,
             description: role_definitions[role].description,
-            supplementary: "",
+            supplementary: '',
             win: role_definitions[role].win,
             action: role_definitions[role].action,
             artifact: null,
@@ -36,25 +33,13 @@ class Gamestate {
     return this.user_roles;
   }
 
-  updateUserRole ( id, role ) {
-    let index = this.user_roles.find( ( user ) => user.id == id );
-    this.user_roles[index].role = role;
-  }
-
   updateUserAttributes( id, attributes ) {
-    let index = this.user_roles.find( ( user ) => user.id == id );
+    let index = this.user_roles.findIndex( ( user ) => user.id == id );
     this.user_roles[index] = underscore.extend( this.user_roles[index], attributes );
   }
 
   getUserById ( id ) {
     return this.user_roles.filter( (user) => user.id == id )[0];
-  }
-
-  setSupplementaryText ( id, text ) {
-    let index = this.user_roles.find( ( user ) => user.id == id );
-    console.log("INDEX: --------> ", index);
-    console.log("USER: --------> ", this.user_roles[index]);
-    this.user_roles[index].supplementary = text;
   }
 
   assignArtifactToUser ( user, artifact ) {
@@ -63,7 +48,8 @@ class Gamestate {
       case 'claw' :
         this.updateUserAttributes( user.id, {
           role: 'werewolf',
-          description: `The Curator's artifact has turned you into a Werewolf.`,
+          displayRole: 'werewolf',
+          supplementary: `The Curator gave you an artifact that has turned you into a Werewolf. Stay hidden.`,
           win: role_definitions['werewolf'].win,
           artifact: artifact
         });
@@ -72,7 +58,7 @@ class Gamestate {
       case 'cudgel':
         this.updateUserAttributes( user.id, {
           role: 'tanner',
-          description: `The Curator's artifact has turned you into a Tanner.`,
+          description: `The Curator gave you an artifact that has turned you into a Tanner.`,
           win: role_definitions['tanner'].win,
           artifact: artifact
         });
@@ -80,16 +66,16 @@ class Gamestate {
 
       case 'brand':
         this.updateUserAttributes( user.id, {
-          role: 'tanner',
-          description: `The Curator's artifact has turned you into a Tanner.`,
-          win: role_definitions['tanner'].win,
+          role: 'villager',
+          description: `The Curator gave you an artifact that has turned you into a Villager.`,
+          win: role_definitions['villager'].win,
           artifact: artifact
         });
         break;
 
       case 'mask':
         this.updateUserAttributes( user.id, {
-          description: `The Curator's artifact has muted you.`,
+          description: `The Curator gave you an artifact that has muted you.`,
           artifact: artifact,
           muted: true
         });
@@ -97,91 +83,81 @@ class Gamestate {
 
       case 'void':
         this.updateUserAttributes( user.id, {
-          description: `The Curator's artifact does nothing.`,
+          description: `The Curator gave you an artifact that fizzled a bit and seemed to have no effect.`,
           artifact: artifact
         });
         break;
     }
   }
 
-  // [ {id, role, target} ]
+  // [{id, role, target}, {id, role, target}, ]
   performNightActions( actions ) {
-    console.log( "Perform Night Actions: ", actions );
     this.order.forEach( ( role ) => {
-      this.processNightAction( role, actions.filter( ( action ) => action.role == role ) );  // There's no guarantee the user submitted an action
+      this.processNightAction( role, actions.filter( ( action ) => action.role == role )[0] );
     });
     return this.user_roles;
   }
 
+  // role, { id: 1, role: role, target: [2,3] }
   processNightAction( role, action ) {
-    let players = this.user_roles.filter( ( user ) => user.role == role );
-    if ( players ) { return; }
-
+    console.log(`${role} called with action ` + JSON.stringify(action));
     switch ( role ) {
-
       case 'werewolf':
-        if ( players.length == 1 ) {
-          this.setSupplementaryText( players[0].id, `You are the only werewolf. You manage to look at a random unassigned card and see a ${this.role[0]}.` );
-        } else {
-          this.setSupplementaryText( players[0].id, `The other werewolf is ${players[1].name}.`);
-          this.setSupplementaryText( players[1].id, `The other werewolf is ${players[0].name}.`);
+        let wolves = this.user_roles.filter( user => user.role == 'werewolf' );
+        if ( wolves.length == 1 ) {
+          this.updateUserAttributes( wolves[0].id, { supplementary: `You are the only werewolf. You manage to look at a random unassigned card and see a ${this.roles[0]}.` } );
+          break;
+        }
+        if ( wolves.length == 2 ) {
+          this.updateUserAttributes( wolves[0].id, { supplementary: `The other werewolf is ${wolves[1].name}.` } );
+          this.updateUserAttributes( wolves[1].id, { supplementary: `The other werewolf is ${wolves[0].name}.` } );
         }
         break;
 
       case 'seer':
-        let seer = players[0];
-        if ( action ) {
-          let target_user = this.getUserById(action.target[0]);
-          this.setSupplementaryText( seer.id, `You saw that ${ target_user.name } was a ${ target_user.role }` );
+        if ( action && action.target ) {
+          let target_user = this.getUserById(action.target);
+          this.updateUserAttributes( action.id, { supplementary: `You saw that ${ target_user.name } was a ${ target_user.role }` } );
         }
         break;
 
       case 'robber':
-        let robber = players[0];
-        if( action ) {
-          let target_user = this.getUserById(action.target[0]);
-          this.updateUserRole( robber.id, target_user.role );
-          this.updateUserRole( target_user.id, 'robber' );
-          this.setSupplementaryText( robber.id, `You stole ${ target_user.name }'s identity and are now a ${ target_user.role }.`);
-        }
-        // Assign target role to player
-        // Assign robber role to target
-        // Update player text with current role
-        break;
+        if( action && action.target ) {
+          let target_user = this.getUserById(action.target);
+          this.updateUserAttributes( action.id, {
+            role: target_user.role,
+            displayRole: target_user.role,
+            description: role_definitions[target_user.role].description,
+            supplementary: `You stole ${target_user.name}'s role and are now a ${target_user.role}` ,
+            win: role_definitions[target_user.role].win
+          });
 
-      case 'troublemaker':
-        let troublemaker = players[0];
-        if( action ) {
-          let target_user_1 = this.getUserById(action.target[0]);
-          let target_user_2 = this.getUserById(action.target[1]);
-
-          this.updateUserRole( target_user_1.id, target_user_2.role );
-          this.updateUserRole( target_user_2.id, target_user_1.role );
-          this.setSupplementaryText( troublemaker.id, `You swapped ${ target_user_1.name }'s and ${ target_user_2.name }'s roles.`);
+          this.updateUserAttributes( target_user.id, { role: 'robber' } );
         }
         break;
 
       case 'insomniac':
-        let insomniac = players[0];
         if ( action ) {
-          this.setSupplementaryText( insomniac.id, `Before you went to sleep you saw that you were the ${insomniac.role}`);
+          let insomniac = this.getUserById( action.id );
+          this.updateUserAttributes( action.id, { supplementary: `Before you went to sleep you saw that you were the ${insomniac.role}` } );
         }
         break;
 
       case 'curator':
-        let curator = players[0];
-        if ( action ) {
-          let target_user = this.getUserById(action.target[0]);
+        if ( action && action.target ) {
+          let target_user = this.getUserById(action.target);
           let artifact = underscore.shuffle(Object.keys(artifacts))[0];
           this.assignArtifactToUser (target_user, artifact);
-          this.setSupplementaryText(curator.id, `You gave a random artifact from your collection to ${target_user.name}.`);
+          this.updateUserAttributes( action.id, { supplementary: `You gave a random artifact from your collection to ${target_user.name}.` } );
         }
         break;
-
-      default: break;
-
     }
 
+  }
+
+  // [ [1,2], [2,1] ]
+  performVoteActions ( ) {
+    return { won: "villagers", most_votes: 1 }; // this is just for testing
   }
 
 }

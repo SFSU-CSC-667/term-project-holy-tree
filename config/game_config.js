@@ -1,8 +1,8 @@
 const game_config =
 {
     2: {
-        roles: ['werewolf', 'seer', 'hunter', 'robber', 'curator'],
-        order: ['werewolf', 'seer', 'robber', 'curator'],
+        roles: ['werewolf', 'robber', 'seer', 'curator', 'insomniac', 'hunter', 'villager'],
+        order: ['werewolf', 'seer', 'robber', 'insomniac', 'curator'],
         night_duration: 15,
         voting_duration: 15,
         day_duration: 140

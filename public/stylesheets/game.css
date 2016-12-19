@@ -11,6 +11,17 @@
     margin: auto;
 }
 
+.time-info {
+    width:100%;
+    margin:40px auto;
+    text-align: center;
+}
+
+.time-info #counter {
+    font-size:2em;
+    color:red;
+}
+
 .game-board {
     display: flex;
     flex-direction: row;
@@ -20,20 +31,12 @@
 }
 
 .game-board .players {
-    width:85%;
+    width:100%;
+    padding:80px 40px;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-}
-
-.game-board .extra-cards {
-    display:flex;
-    width:15%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border-left:2px solid black;
 }
 
 .player-console {
@@ -116,18 +119,10 @@
     justify-content: center; 
 }
 
-.extra-cards .card {
-    width:140px;
-    height:140px;
-    background:url('/images/default_cardback.png') center center no-repeat;
-    background-size:100%;
-    border-radius: 4px;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-}
-
 .selected {
     border:4px solid red;
 }
+
 
 #messages {
     font-family: 'Roboto', sans-serif;
@@ -148,4 +143,28 @@
     background-size: cover;
     border-radius: 50%;
     display: block;
+}
+
+
+/* PLAYER GAME INFO */
+.player-game-info {
+    display:flex;
+    padding-top:20px;
+    padding-left:20px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.player-game-info div {
+    margin-bottom:10px;
+}
+
+.player-game-info label {
+    font-size:1.3em;
+    font-weight:bold;
+}
+
+.player-game-info p {
+    padding-left:10px;
 }
