@@ -41,7 +41,10 @@ const socketInit = io => {
       .then( gamestate.performNightActions.bind( gamestate ) )
       .then( user_roles => {
         console.log('NIGHTACTIONSRETURNED: ' + JSON.stringify( user_roles ));
-        user_roles.forEach( notify_individial_user_daytime )
+        user_roles.forEach( user_role => {
+          notify_individial_user_daytime( user_role );
+          models.game.updateUserGameRecord( user_role, game_id );
+        });
       })
       .then( _ => { notify_vote_phase_starting( game_id ) });
   }
