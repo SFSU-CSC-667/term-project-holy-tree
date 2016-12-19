@@ -17,9 +17,8 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   db.createTable('games', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    player_count: {type: 'int'},
-    visible: {type: 'boolean'},
     created_at: {type: 'date'}, 
+    finished: {type: 'boolean'}
   }, callback);
 };
 

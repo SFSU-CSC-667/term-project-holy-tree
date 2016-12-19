@@ -49,7 +49,7 @@ class Gamestate {
         this.updateUserAttributes( user.id, {
           role: 'werewolf',
           displayRole: 'werewolf',
-          supplementary: `The Curator gave you an artifact that has turned you into a Werewolf. Stay hidden.`,
+          description: `The Curator gave you an artifact that has turned you into a Werewolf. Stay hidden.`,
           win: role_definitions['werewolf'].win,
           artifact: artifact
         });

@@ -17,8 +17,8 @@ const user = db => {
 
     alreadyInGame: user_id => {
       return db.one(
-       "SELECT game_id FROM user_game WHERE user_id = $1",
-       [ user_id ]
+       "SELECT game_id FROM user_game ug JOIN game g ON ug.game_id = g.id WHERE g.finished = $1 AND ug.user_id = $2;",
+       [ false, user_id ]
      ).then( data => data.game_id );
     }
   }

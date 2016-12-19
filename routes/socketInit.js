@@ -17,10 +17,10 @@ const socketInit = io => {
       .then( _ => ({ player_count, user }));
   }
 
-  const notify_individial_user_night_time = ( user ) => {
+  const notify_individial_user_night_time = ( user, game_id ) => {
     user.phase = 'NIGHT';
     user.duration = game_config[MAX_PLAYERS]['night_duration'];
-    user_socket = USER_SOCKETS[user.id];
+    user_socket = USER_SOCKETS[`$(game_id)_$(user.id)`];
 
     io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
   }
@@ -42,17 +42,17 @@ const socketInit = io => {
       .then( user_roles => {
         console.log('NIGHTACTIONSRETURNED: ' + JSON.stringify( user_roles ));
         user_roles.forEach( user_role => {
-          notify_individial_user_daytime( user_role );
+          notify_individial_user_daytime( user_role, game_id );
           models.game.updateUserGameRecord( user_role, game_id );
         });
       })
       .then( _ => { notify_vote_phase_starting( game_id ) });
   }
 
-  const notify_individial_user_daytime = ( user ) => {
+  const notify_individial_user_daytime = ( user, game_id ) => {
     user.phase = 'DAY';
     user.duration = game_config[MAX_PLAYERS]['day_duration'];
-    user_socket = USER_SOCKETS[user.id];
+    user_socket = USER_SOCKETS[`$(game_id)_$(user.id)`];
 
     io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
   }
@@ -70,8 +70,8 @@ const socketInit = io => {
       const game_id = subscription.game_id;
       const user_id = subscription.user_id;
 
-      if ( !USER_SOCKETS[ user_id ] ) {
-        USER_SOCKETS[user_id] = socket.id;
+      if ( !USER_SOCKETS[ `$(game_id)_$(user_id)` ] ) {
+        USER_SOCKETS[`$(game_id)_$(user_id)`] = socket.id;
       }
 
       socket.join( game_id );
@@ -89,7 +89,7 @@ const socketInit = io => {
                 GAME_STATES[ game_id ] = new gamestate( config.roles, config.order, users );
                 GAME_STATES[ game_id ].assignUserRoles().forEach( ( user_role ) => {
                   models.game.updateUserGameRecord( user_role, game_id )
-                    .then( notify_individial_user_night_time )
+                    .then( user => { notify_individial_user_night_time( user, game_id ) })
                     .catch( error => console.log(error) )
                 })
               }).then( _ => {
