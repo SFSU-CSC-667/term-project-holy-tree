@@ -20,7 +20,8 @@ const socketInit = io => {
   const notify_individial_user_night_time = ( user, game_id ) => {
     user.phase = 'NIGHT';
     user.duration = game_config[MAX_PLAYERS]['night_duration'];
-    user_socket = USER_SOCKETS[`$(game_id)_$(user.id)`];
+    console.log( 'NOTIFIYING SOCKET: ', `${game_id}_${user.id}` );
+    user_socket = USER_SOCKETS[`${game_id}_${user.id}`];
 
     io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
   }
@@ -52,7 +53,7 @@ const socketInit = io => {
   const notify_individial_user_daytime = ( user, game_id ) => {
     user.phase = 'DAY';
     user.duration = game_config[MAX_PLAYERS]['day_duration'];
-    user_socket = USER_SOCKETS[`$(game_id)_$(user.id)`];
+    user_socket = USER_SOCKETS[`${game_id}_${user.id}`];
 
     io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
   }
@@ -70,8 +71,8 @@ const socketInit = io => {
       const game_id = subscription.game_id;
       const user_id = subscription.user_id;
 
-      if ( !USER_SOCKETS[ `$(game_id)_$(user_id)` ] ) {
-        USER_SOCKETS[`$(game_id)_$(user_id)`] = socket.id;
+      if ( !USER_SOCKETS[ `${game_id}_${user_id}` ] ) {
+        USER_SOCKETS[`${game_id}_${user_id}`] = socket.id;
       }
 
       socket.join( game_id );
