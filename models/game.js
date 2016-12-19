@@ -9,16 +9,16 @@ class Game {
 
   findAvailable () {
       return this.db.one(
-        "SELECT id FROM games WHERE visible = $1 and player_count < $2 ORDER BY id ASC LIMIT 1;",
-        [true, this.MAX_PLAYERS],
+        "SELECT g.id, COUNT(ug.id) AS players FROM games g JOIN user_game ug ON g.id = ug.game_id WHERE finished = $1 GROUP BY g.id HAVING COUNT(ug.id) < $2 ORDER BY id ASC LIMIT 1;",
+        [false, this.MAX_PLAYERS],
         data => data.id
       ).bind( this );
   }
 
   create () {
       return this.db.one(
-        "INSERT INTO games (visible, player_count) VALUES ($1, $2) RETURNING id;",
-        [true, 0],
+        "INSERT INTO games (finished) VALUES ($1) RETURNING id;",
+        [false],
         data => data.id
       ).bind( this );
   }
