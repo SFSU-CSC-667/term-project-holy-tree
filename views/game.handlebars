@@ -58,13 +58,14 @@
   };
   const registerNightPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
+      $('#counter').text('Day Phase Starting Soon');
       $('#messages').append($('<li>').addClass('phase').html('DAY PHASE STARTING'));
       clearTimeout( timeout );
     }, duration * 1000 );
   }
   const registerDayPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
-
+      $('#counter').text('Voting Phase Starting Soon');
       $('#messages').append($('<li>').addClass('phase').html('VOTING PHASE STARTING'));
       clearTimeout( timeout );
     }, duration * 1000 );
