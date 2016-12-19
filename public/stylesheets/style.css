@@ -1,12 +1,20 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { height: 100%;  }
-body { font: 13px Helvetica, Arial; height:100%; }
+body { font: 13px Helvetica, Arial; height:100%;}
 #messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background-color:rgb(225,225,225); }
 
+.landingImage {
+	background: url('/images/village.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
 .container-flex {
-	height: 80%;
+	height: 100%;
 	padding: 0;
     margin: 0;
     display: -webkit-box;
@@ -16,20 +24,47 @@ body { font: 13px Helvetica, Arial; height:100%; }
 	display: flex; 
 	
     justify-content: center;
-    align-items: center;
 }
 
 .row {
 	width: auto;
 }
 
+.werewolf {
+	font-size: 130px;
+	font-family: 'Mirza', cursive;
+	color: #EEEEEE;
+	margin-top: 20%;
+}
+
+.description {
+	margin-top: -10%;
+	font-family: 'Roboto', sans-serif;
+	color: #EEEEEE;
+}
+
 .flex-item {
 	width: auto;
 	height: auto;
 	text-align: center;
+	justify-content: space-around;
+	margin-top: 10%;
 }
 
-.intro {
-	font-family: "Helvetica";
-	text-align: center;
+#buttonColor {
+	background-color: #006064;
+	color: #fff;
+}
+
+.imageSize {
+	width: 150px;
+	height: 150px;
+}
+
+.img-circle {
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	border-radius: 50%;
+	display: block;
 }
