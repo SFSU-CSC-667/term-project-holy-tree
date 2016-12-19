@@ -1,7 +1,7 @@
 .welcome {
   display: flex;
   height: 70px;
-  font-family: creepster, sans-serif;
+  font-family: 'Mirza', cursive;
   font-size: 70px;
   color: rgb(103,101,143);
   align-items: center;
@@ -40,8 +40,17 @@
 .description-text {
   display: flex;
   justify-content: space-around;
+  padding-top: 50px;
   width: 450px;
+  font: #000;
 }
+
+.role-photos {
+  width: 50px;
+  height: 50px;
+
+}
+
 
 .mdl-card__role-name {
   width: 150px;
