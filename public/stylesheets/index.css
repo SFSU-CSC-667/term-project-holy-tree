@@ -47,7 +47,6 @@
 .roles-top {
   display: flex;
   justify-content: space-around;
-
 }
 
 .roles-bottom {
@@ -72,13 +71,6 @@
   justify-content: space-around;
   width: 75px;
   height: 75px;
-}
-
-
-.mdl-card__role-name {
-  width: 150px;
-  display: flex;
-  justify-content: center;
 }
 
 .join-game {
