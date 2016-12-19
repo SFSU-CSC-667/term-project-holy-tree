@@ -54,7 +54,10 @@ body { font: 13px Helvetica, Arial; height:100%;}
 #buttonColor {
 	background-color: #006064;
 	color: #fff;
+    cursor:pointer;
 }
+
+
 
 .imageSize {
 	width: 150px;
