@@ -1,8 +1,6 @@
 /* SECTIONAL LAYOUTS */
 
 .game-wrapper {
-    background:url('../images/village.png') bottom center;
-    background-size: cover;
     height:100%;
 }
 

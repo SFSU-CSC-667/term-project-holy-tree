@@ -68,8 +68,7 @@
 /*     Brook's Additions          */
 
 .join-game-page {
-  background: url('../images/village_night.jpg') center center no-repeat;
-  background-size: cover;
+
   display: flex;
   flex-direction: row;
   justify-content: space-around;
