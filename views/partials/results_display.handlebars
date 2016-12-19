@@ -1,26 +1,26 @@
 <div class="dialog-results-display">
-    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>Status</th>
-          <th>Final Role</th>
-          <th>Votes</th>
-          <th>Voted For</th>
-          <th>Win/Lose</th>
-        </tr>
-      </thead>
-      <tbody>
-      {{#each players }}
-        <tr>
-            <td>{{name}}</td>
-            <td>{{status}}</td>
-            <td>{{role}}</td>
-            <td>{{votes_against}}</td>
-            <td>{{vote}}</td>
-            <td>{{outcome}}</td>
-        </tr>
-      {{/each }}
-      </tbody>
-    </table>
+  <h3>Results</h3>
+  <table class="results-table mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Status</th>
+        <th>Final Role</th>
+        <th>Votes</th>
+        <th>Win/Lose</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each players }}
+      <tr>
+          <td>{{name}}</td>
+          <td>{{status}}</td>
+          <td>{{role}}</td>
+          <td>{{votes_against}}</td>
+          <td>{{outcome}}</td>
+      </tr>
+    {{/each }}
+    </tbody>
+  </table>
+  <div class='linkback'><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--cyan-800 mdl-color-text--grey-50" onclick="window.location.href='/'">Leave the Village</button></div>
 </div>

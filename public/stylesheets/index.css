@@ -80,7 +80,7 @@
 .join-game-page .mdl-card {
   background-color:rgba(128,128,128,0.7);
   width:25%;
-  height:700px;
+  height:600px;
   padding:10px 20px;
 }
 
@@ -113,9 +113,9 @@
   display: flex;
   flex-direction: column;
   width:80%;
-  height:80px;
+  height:60px;
   background-size:cover;
-  border:1px solid black;
+  border:1px solid white;
 }
 
 .background-villager {
@@ -156,4 +156,5 @@
 .join-game-page .mdl-card .role-description-flex .role p {
   line-height: 1.2em;
 }
+
 

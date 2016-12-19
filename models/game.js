@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 2;
+    this.MAX_PLAYERS = 1;
   }
 
   findAvailable () {

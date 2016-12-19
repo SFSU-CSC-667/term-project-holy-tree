@@ -1,5 +1,12 @@
 const game_config =
 {
+    1: {
+        roles: ['insomniac'],
+        order: ['insomniac'],
+        night_duration: 5,
+        voting_duration: 5,
+        day_duration: 5
+    },
     2: {
         roles: ['werewolf', 'seer', 'villager'],
         order: ['werewolf', 'seer'],
