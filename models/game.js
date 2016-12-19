@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 2;
+    this.MAX_PLAYERS = 1;
   }
 
   findAvailable () {
@@ -82,7 +82,7 @@ class Game {
 
   collectVoteActions ( game_id ) {
     return this.db.any(
-      "SELECT u.id, ug.vote FROM user_game ug JOIN users u ON ug.user_id = u.id WHERE ug.game_id = $1",
+      "SELECT u.id, u.name, ug.role, ug.vote FROM user_game ug JOIN users u ON ug.user_id = u.id WHERE ug.game_id = $1",
       [ game_id ]
     );
   }

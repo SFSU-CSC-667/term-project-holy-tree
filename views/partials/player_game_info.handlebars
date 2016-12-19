@@ -1,21 +1,13 @@
-<div class="player-game-info">
-    <div>
-        <label>Role</label>
-        <p>{{ displayRole }}</p>
-    </div>
-
-    <div>
-        <label>Description</label>
-        <p>{{ description }}</p>
-    </div>
-
-    <div>
-        <label>Additional Information</label>
-        <p>{{ supplementary }}</p>
-    </div>
-
-    <div>
-        <label>How to Win</label>
-        <p>{{ win }}</p>
-    </div>
+<p class='role'>{{ displayRole }}</p>
+<p class='description'>{{ description }}</p>
+{{#if supplementary }}
+<div>
+    <label>Additional Information</label>
+    <p>{{ supplementary }}</p>
 </div>
+{{/if}}
+<div>
+    <label>How to Win</label>
+    <p>{{ win }}</p>
+</div>
+

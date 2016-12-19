@@ -12,7 +12,7 @@
   height: 525px;
   width: 700px; 
   border: 1px ridge;
-  box-shadow: 3px 3px 3px #888888;
+  box-shadow: 2px 2px 1px rgba(0,0,0,0.2);
 }
 
 .container {
@@ -21,7 +21,6 @@
   justify-content: space-around;
   padding-bottom: 20px;
 }
-
 
 
 .card-title {
@@ -34,7 +33,6 @@
 .description {
   display: flex;
   justify-content: space-around;
-  height: 500px;
 }
 
 .description-text {
@@ -63,4 +61,100 @@
   color: blue;
   justify-content: center;
   align-items: flex-end;
+  justify-content: space-around;
 }
+
+
+/*     Brook's Additions          */
+
+.join-game-page {
+  background: url('../images/village.png') center center no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height:100%;
+  padding-top:60px;
+}
+
+.join-game-page .mdl-card {
+  background-color:rgba(128,128,128,0.7);
+  width:25%;
+  height:600px;
+  padding:10px 20px;
+}
+
+.join-game-page .mdl-card h3, .mdl-card h5 {
+  color:white;
+  font-family: 'Mirza';
+}
+
+.join-game-page .mdl-card {
+  color:white;
+}
+
+.join-game-page .mdl-card p {
+  text-align: justify;
+}
+
+.join-game-page .mdl-card .section ul li {
+  list-style-type: none;
+}
+
+.join-game-page .mdl-card .role-description-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height:600px;
+  justify-content: space-around;
+}
+
+.join-game-page .mdl-card .role-description-flex .role {
+  display: flex;
+  flex-direction: column;
+  width:80%;
+  height:60px;
+  background-size:cover;
+  border:1px solid white;
+}
+
+.background-villager {
+  background:url('../images/villager.png') center center;
+}
+
+.background-werewolf {
+  background:url('../images/werewolf.png') center center;
+}
+.background-seer {
+  background:url('../images/seer.png') center center;
+}
+.background-robber {
+  background:url('../images/robber.png') center center;
+}
+.background-insomniac {
+  background:url('../images/insomniac.png') center center;
+}
+.background-hunter {
+  background:url('../images/hunter.png') center center;
+}
+.background-curator {
+  background:url('../images/curator.png') center center;
+}
+
+.join-game-page .mdl-card .role-description-flex .role h5,
+.join-game-page .mdl-card .role-description-flex .role p {
+  text-align: left;
+  display:inline-block;
+  margin:0px;
+  padding:0px 10px;
+}
+
+.join-game-page .mdl-card .role-description-flex .role h5 {
+  padding-top:0.75em;
+}
+
+.join-game-page .mdl-card .role-description-flex .role p {
+  line-height: 1.2em;
+}
+
+

@@ -1,38 +1,21 @@
-#container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* SECTIONAL LAYOUTS */
 
-#pic{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-}
-
-.time-info {
-    width:100%;
-    margin:40px auto;
-    text-align: center;
-}
-
-.time-info #counter {
-    font-size:2em;
-    color:red;
+.game-wrapper {
+    background:url('../images/village.png') bottom center;
+    background-size: cover;
+    height:100%;
 }
 
 .game-board {
     display: flex;
-    flex-direction: row;
-    height: 60%;
+    flex-direction: column;
+    height: 65%;
     border-bottom: 2px solid black;
-    background-size: cover;
 }
 
 .game-board .players {
     width:100%;
-    padding:80px 40px;
+    height:65%;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
@@ -41,7 +24,8 @@
 
 .player-console {
     display: flex;
-    height:40%;
+    height:35%;
+    border-bottom:2px solid black;
 }
 
 .game-chat {
@@ -52,6 +36,7 @@
     height:85%;
     overflow-y:scroll;
     border-bottom:1px solid gray;
+    background-color: rgba(255,255,255,0.7)
 }
 
 .game-chat form {
@@ -66,105 +51,170 @@
     border:0;
     margin-left:0px;
     padding:10px;
+    background-color:rgba(255,255,255,0.65);
 }
 
 .game-chat form button {
     width:10%;
     height:100%;
-    background: gray;
+    background: #00838f;
+    color:white;
+    font-size:16px;
     border:0;
     margin:0px;
     padding:10px;
-
+    cursor:pointer;
 }
 
-.image-circular{
-    width: 40px;
-    height: 40px;
-    background-size: cover;
-    border-radius: 50%;
-    display: block;
+.game-chat form button:hover {
+    background-color: #005961;
 }
 
 .game-info {
     width:30%;
     border-left:2px solid black;
+    background-color:rgba(255,255,255,0.65);
 }
 
-
-/* Player and Extra Cards */
-
-.player-card {
-    width:220px;
-    height:220px;
-    border-radius: 4px;
-}
-
-.player-name {
-    text-align: center; font-family: 'Roboto', sans-serif;
-}
-
-.player-card-name {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    margin-top: 10px;
-    text-align: center; font-family: 'Roboto', sans-serif;
-    color: #006064;
-}
-
-.material-icons.md-48 { 
-    display: flex;
-    font-size: 48px;
-    justify-content: center; 
-}
-
-.selected {
-    border:4px solid red;
-}
-
-
+/* CHAT */
 #messages {
     font-family: 'Roboto', sans-serif;
 }
 
-.time-info {
-    font-family: 'Roboto', sans-serif;
+#messages { 
+    list-style-type: none; margin: 0; padding: 0; 
+    overflow-y: scroll;
 }
 
-.imageSize {
-    width: 100px;
-    height: 100px;
+#messages li { 
+    padding: 5px 10px;
 }
 
-.img-circle {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    border-radius: 50%;
-    display: block;
+#messages li:nth-child(odd) { 
+    background-color:rgba(255,255,255,0.3); 
+}
+
+#messages .self {
+    color:rgb(0,80,120);
+}
+
+#messages .phase {
+    color:rgb(0,80,120);
 }
 
 
-/* PLAYER GAME INFO */
-.player-game-info {
-    display:flex;
-    padding-top:20px;
-    padding-left:20px;
+/* END CORE SECTIONALS */
+
+.round-info {
+    height:60px;
+    padding-top:50px;
+    text-align: center;
+}
+
+.round-info #counter {
+    font-size: 34px;
+    color:white;
+    font-family:'Mirza', serif;
+}
+
+/* PLAYER CARDS */
+
+.player-card {
+    height:120px;
+    width:240px;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
+.player-card .portrait {
+    height:85%;
+    width:100%;
+}
 
-.player-game-info div {
-    margin-bottom:10px;
+.player-card .info {
+    height:15%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.player-card span {
+    display: inline-block;
+    color:white;
+    font-family: : 'Mirza', serif;
+    font-size:18px;
+    padding:8px;
+}
+
+/* PLAYER INFO */
+
+.player-game-info {
+    padding:10px 20px;
+}
+
+.player-game-info .role {
+    font-size:3em;
+    text-align: center;
+    padding:25px 0px 0px 0px;
+    font-family:'Mirza', serif;
+}
+
+.player-game-info .description {
+    padding:25px 0px 0px 0px;
+    color:black;
 }
 
 .player-game-info label {
-    font-size:1.3em;
-    font-weight:bold;
+    font-size: 1.5em;
+    font-family: 'Mirza', serif;
+    padding-left:5px;
 }
 
 .player-game-info p {
     padding-left:10px;
 }
+
+
+.selected {
+    border:2px solid rgb(200,0,0);
+}
+
+/* RESULTS */
+
+.dialog-results-display {
+    border-radius:7px;
+    padding-left:20px;
+    padding-right:20px;
+    background-color:rgba(255,255,255,0.65);
+}
+
+.dialog-results-display h3 {
+    font-family: 'Mirza', serif;
+}
+
+.dialog-results-display table {
+    border-radius:4px;
+    background-color:rgba(0,0,0,0);
+}
+
+.dialog-results-display table tr {
+    border-radius:4px;
+    background-color:rgba(255,255,255,0.3);
+}
+
+.dialog-results-display table tr th {
+    text-align: left;
+}
+
+.linkback {
+    width:100%;
+    text-align: center;
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.linkback button {
+    width:35%;
+    text-transform: none;
+}
+
+

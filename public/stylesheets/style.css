@@ -1,9 +1,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { height: 100%;  }
 body { font: 13px Helvetica, Arial; height:100%;}
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background-color:rgb(225,225,225); }
 
 .landingImage {
 	background: url('/images/village.png') no-repeat center center fixed;
@@ -54,7 +51,10 @@ body { font: 13px Helvetica, Arial; height:100%;}
 #buttonColor {
 	background-color: #006064;
 	color: #fff;
+    cursor:pointer;
 }
+
+
 
 .imageSize {
 	width: 150px;
