@@ -155,9 +155,61 @@ class Gamestate {
 
   }
 
-  // [ [1,2], [2,1] ]
-  performVoteActions ( ) {
-    return { won: "villagers", most_votes: 1 }; // this is just for testing
+  // Array [{userid, role, vote}, {userid, role, vote}, ] 
+  performVoteActions ( votes ) {
+
+    // Yes this is n^2, but c'mon - we only have a few players
+    votes.forEach( (vote, index, array) => { 
+      let votes_for_user = array.filter( i => i.vote == vote.id ).length;
+      underscore.extend(array[index], {'votes_against': votes_for_user });
+    });
+
+    console.log('167 ' + JSON.stringify(votes));
+
+    votes = votes.sort( (a,b) => a.votes_for > b.votes_for );
+
+    console.log('171 ' + JSON.stringify(votes));
+
+    let dead_players = votes.filter( vote => vote.votes_against == votes[0].votes_against );
+    
+    console.log(`175 DEAD: ` + JSON.stringify(dead_players));
+
+    /* SPECIAL HUNTER ACTION */
+    let hunter_in_dead = dead_players.filter ( dead => dead.role == 'hunter' );
+    // Hunter is dead and target is not dead
+    if ( hunter_in_dead.length > 0 && dead_players.indexOf( dead => dead.id == hunter_in_dead[0].vote ) == -1 ) {
+      // Make dead
+      dead_players.push( votes.filter( vote => vote.id == hunter_in_dead[0].vote )[0] );
+    }
+
+    // Mark dead players as dead
+    votes.forEach( (vote, index, array) => { 
+        array[index]['status'] = ( dead_players.filter( dead => dead.id == vote.id ).length == 0  ) ? 'Alive' : 'Dead' 
+      });
+
+    // for each player, add win / lose based on role and the items in dead
+    votes.forEach ( (vote, index, array) => {
+      switch ( vote.role ) {
+        case 'villager':
+        case 'seer':
+        case 'robber':
+        case 'curator':
+        case 'insomniac':
+        case 'hunter':
+          array[index]['outcome'] = (dead_players.filter( dead => dead.role == 'werewolf' ).length > 0) ? 'WIN' : 'LOSE';
+          break;
+
+        case 'tanner':
+          array[index]['outcome'] = (dead_players.filter( dead => dead.id == vote.id ).length > 0) ? 'WIN' : 'LOSE';
+          break;
+
+        case 'werewolf':
+          array[index]['outcome'] = (dead_players.filter( dead => dead.role == 'werewolf' ).length == 0) ? 'WIN' : 'LOSE';
+          break;
+      }
+    });
+
+    return {'players': votes};
   }
 
 }

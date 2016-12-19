@@ -1,0 +1,26 @@
+<div class="dialog-results-display">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Status</th>
+          <th>Final Role</th>
+          <th>Votes</th>
+          <th>Voted For</th>
+          <th>Win/Lose</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each players }}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{status}}</td>
+            <td>{{role}}</td>
+            <td>{{votes_against}}</td>
+            <td>{{vote}}</td>
+            <td>{{outcome}}</td>
+        </tr>
+      {{/each }}
+      </tbody>
+    </table>
+</div>

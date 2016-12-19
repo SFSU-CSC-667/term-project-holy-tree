@@ -123,6 +123,6 @@
 
   socket.on('voting phase ended', function ( results ) {
     console.log("VOTING PHASE ENDED: ", results);
-    // display voting results to players
+    $('.players').html('').append(Handlebars.templates.results_display( results ));
   });
 </script>
