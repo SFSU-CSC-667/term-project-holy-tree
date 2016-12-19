@@ -1,6 +1,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { height: 100%;  }
-body { font: 13px Helvetica, Arial; height:100%;}
+html { height: 100%; overflow-x: hidden; 
+    overflow-y: auto; }
+body { font: 13px Helvetica, Arial; height:100%; overflow-x: hidden; 
+    overflow-y: auto;}
 #messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background-color:rgb(225,225,225); }

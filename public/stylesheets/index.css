@@ -1,16 +1,16 @@
 .welcome {
   display: flex;
+  justify-content: space-around;
   height: 70px;
   font-family: 'Mirza', cursive;
   font-size: 70px;
   color: rgb(103,101,143);
   align-items: center;
-  justify-content: space-around;
 }
 
 .each-card {
-  height: 525px;
-  width: 700px; 
+  height: 425px;
+  width: 675px; 
   border: 1px ridge;
   box-shadow: 3px 3px 3px #888888;
 }
@@ -19,36 +19,59 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-top: -20px;
   padding-bottom: 20px;
 }
-
-
 
 .card-title {
   display: flex;
   justify-content: center;
   padding-bottom: -25px;
-
 }
 
 .description {
   display: flex;
   justify-content: space-around;
+  padding-top: 50px;
   height: 500px;
+  color: #000;
 }
 
 .description-text {
   display: flex;
   justify-content: space-around;
   padding-top: 50px;
-  width: 450px;
-  font: #000;
+  width: 550px;
+}
+
+.roles-top {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.roles-bottom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.roles-top-text {
+  display: flex;
+  justify-content: space-around;
+  margin-left: -10px;
+}
+
+.roles-bottom-text {
+  display: flex;
+  justify-content: space-around;
 }
 
 .role-photos {
-  width: 50px;
-  height: 50px;
-
+  display: flex;
+  justify-content: space-around;
+  width: 75px;
+  height: 75px;
 }
 
 
@@ -63,4 +86,5 @@
   color: blue;
   justify-content: center;
   align-items: flex-end;
+  margin-top: -120px;
 }
