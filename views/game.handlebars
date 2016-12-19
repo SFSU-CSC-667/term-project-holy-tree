@@ -1,3 +1,4 @@
+
 <div class='game-board mdl-color--blue-grey-50'>
   <div class='time-info'><span id='counter'>Game Starting Soon</span></div>
   <div class='players'>
@@ -7,7 +8,7 @@
   </div>
 </div>
 
-<div class='player-console mdl-color--blue-grey-50'>
+<div class='player-console'>
     <div class="game-chat">
       <ul id="messages"></ul>
       <form>
@@ -50,17 +51,17 @@
       if ( counter == 0 ) { clearInterval(interval); }
     }, 1000);
   };
-
   const registerNightPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
       $('#messages').append($('<li>').html('<strong>GAME:</strong> Night Phase is over! You are now in the Day Phase'));
       clearTimeout( timeout );
     }, duration * 1000 );
   }
-
   const registerDayPhaseTimeout = function( duration ) {
     let timeout = setTimeout( function() {
+
       $('#messages').append($('<li>').html('<strong>GAME:</strong> Day Phase is over! Start voting'));
+      $('.game-board').css('background', 'url(/images/vote.png) no-repeat');
       clearTimeout( timeout );
     }, duration * 1000 );
   }
@@ -71,23 +72,17 @@
       clearTimeout( timeout );
     }, duration * 1000 );
   }
-
   socket.emit( 'subscribe to game', { game_id: game_id, user_id: user_id  } );
-
   /* CHAT Handlers */
   $('form').submit( function(){
     socket.emit('chat message', { message: $('#message-input').val(), name: name, game_id: game_id });
     $('#message-input').val('');
-
     return false;
   });
-
   socket.on('chat message', function( msg ) {
     $('#messages').append($('<li>').html(`<strong>${msg['name']}:</strong> ${msg['message']}`));
   });
-
   /* PLAYER Handlers */
-
   socket.on('player joined', function( data ) {
     if (data.id != user_id) {
       $('.players').append(Handlebars.templates.player_card( data ));
@@ -95,26 +90,26 @@
     $('#game-player-count').text(data.player_count);
     registerPlayerClickListener();
   });
-
   socket.on('night phase starting', function( data ) {
       console.log("NIGHT PHASE STARTING: ", data);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
+      $('.game-board').css('background', 'url(/images/night.png) no-repeat');
       role_info = data;
       displayCountdown( data.duration );
       registerNightPhaseTimeout( data.duration );
   });
-
   socket.on('day phase starting', function( data ) {
       console.log("DAY PHASE STARTING: ", data);
       $('.player-card').removeClass('selected').prop('onclick',null);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
+      $('.game-board').css('background', 'url(/images/day.png) no-repeat');
       role_info = data;
       displayCountdown( data.duration );
       registerDayPhaseTimeout( data.duration );
   });
-
+  
   socket.on('voting phase starting', function( phase_data ) {
     console.log("VOTING PHASE STARTING: ", phase_data);
     $('.player-card').on('click', function () {
@@ -130,5 +125,4 @@
     console.log("VOTING PHASE ENDED: ", results);
     // display voting results to players
   });
-
 </script>

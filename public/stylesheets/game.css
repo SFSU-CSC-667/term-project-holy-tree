@@ -23,9 +23,11 @@
 }
 
 .game-board {
-    width:100%;
-    height:52%;
+    display: flex;
+    flex-direction: row;
+    height: 60%;
     border-bottom: 2px solid black;
+    background-size: cover;
 }
 
 .game-board .players {
@@ -98,13 +100,8 @@
     border-radius: 4px;
 }
 
-.mdl-button.md-48 {
-    display: flex;
-    margin: auto;
-    margin-top: 10%;
-    height: 48px;
-    width: 48px;
-    justify-content: center;
+.player-name {
+    text-align: center; font-family: 'Roboto', sans-serif;
 }
 
 .player-card-name {
@@ -112,6 +109,8 @@
     align-items: baseline;
     justify-content: center;
     margin-top: 10px;
+    text-align: center; font-family: 'Roboto', sans-serif;
+    color: #006064;
 }
 
 .material-icons.md-48 { 
@@ -122,6 +121,28 @@
 
 .selected {
     border:4px solid red;
+}
+
+
+#messages {
+    font-family: 'Roboto', sans-serif;
+}
+
+.time-info {
+    font-family: 'Roboto', sans-serif;
+}
+
+.imageSize {
+    width: 100px;
+    height: 100px;
+}
+
+.img-circle {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 
@@ -147,6 +168,3 @@
 .player-game-info p {
     padding-left:10px;
 }
-
-
-

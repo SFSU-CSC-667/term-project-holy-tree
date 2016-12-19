@@ -1,11 +1,37 @@
-<h1 class= 'welcome'> Welcome to the village </h1>
-<h3 class= 'watched'>you are being watched...</h3>
+<h2 class= 'welcome'> WELCOME </h2>
 <body>
-  <div class='join-a-public-game'>
+  <div class='container'>
+    <div class='each-card'>
+      <div class='card-title'>
+        <h3>How to play</h3>
+      </div>
+      <div class= 'description'>
+        <div class='description-text'>
+        Werewolf is an interactive game that is split into 2 teams: Villagers and Werewolves. If you are a villager, your goal is to pick out of the werewolves that are disguising themselves as villagers. If you are a werewolf, your goal is to stay hidden, blend in with the villager and avoid getting killed.
+        </div>
+      </div>
+    </div>
+    <div class='each-card'>
+      <div class='card-title'>
+        <h3>Roles</h3>
+      </div>
+      <div class='description'>
+        <div class='description-text'>
+          <img class='role-photos' src='/images/villager.png'>villager
+          <img class='role-photos' src='/images/hunter.png'>hunter
+          <img class='role-photos' src='/images/seer.png'>seer
+          <img class='role-photos' src='/images/werewolf.png'>werewolf
+          <img class='role-photos' src='/images/robber.png'>robber 
+          <img class='role-photos' src='/images/curator.png'> curator
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='join-game'>
     <div class="flex-item">
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--cyan-800 mdl-color-text--grey-50" onclick="window.location.href='/game/join'">
-        Join Public Game
+        Join Game
       </button>
     </div>
   </div>
-</body>
+

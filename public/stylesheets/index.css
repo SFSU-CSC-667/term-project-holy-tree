@@ -1,27 +1,64 @@
-body {
-  margin-top: -25px;
-}
-
 .welcome {
   display: flex;
-  padding-top: 50px;
-  font-family: creepster, sans-serif;
-  font-size: 100px;
+  height: 70px;
+  font-family: 'Mirza', cursive;
+  font-size: 70px;
   color: rgb(103,101,143);
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
-.watched {
+.each-card {
+  height: 525px;
+  width: 700px; 
+  border: 1px ridge;
+  box-shadow: 3px 3px 3px #888888;
+}
+
+.container {
   display: flex;
-  font-family: creepster, sans-serif;
   align-items: center;
+  justify-content: space-around;
+  padding-bottom: 20px;
+}
+
+
+
+.card-title {
+  display: flex;
   justify-content: center;
-  margin-bottom: 70px;
+  padding-bottom: -25px;
 
 }
 
-.join-a-public-game {
+.description {
+  display: flex;
+  justify-content: space-around;
+  height: 500px;
+}
+
+.description-text {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 50px;
+  width: 450px;
+  font: #000;
+}
+
+.role-photos {
+  width: 50px;
+  height: 50px;
+
+}
+
+
+.mdl-card__role-name {
+  width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.join-game {
   display: flex;
   color: blue;
   justify-content: center;
