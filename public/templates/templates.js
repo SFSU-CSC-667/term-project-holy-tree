@@ -14,9 +14,9 @@ templates['player_card'] = template({"compiler":[7,">= 4.0.0"],"main":function(c
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "'>\n    <div class='portrait' style='background: url(\""
     + alias4(((helper = (helper = helpers.profile_pic || (depth0 != null ? depth0.profile_pic : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile_pic","hash":{},"data":data}) : helper)))
-    + "\") center center no-repeat; background-size: cover;'></div>\n    <div class='info'>\n    <span class='name'>"
+    + "\") center center no-repeat; background-size: cover;'></div>\n    <div class='info'>\n        <span class='name'>"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</span>\n    <span class='item'>ITEM</span>\n</div>";
+    + "</span>\n        <span class='item'></span>\n    </div>\n</div>";
 },"useData":true});
 templates['player_game_info'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;

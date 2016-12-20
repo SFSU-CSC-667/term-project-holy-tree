@@ -4,7 +4,7 @@ const gamestate = require('../models/gamestate');
 
 const socketInit = io => {
 
-  const MAX_PLAYERS = 1;
+  const MAX_PLAYERS = process.env.MAX_PLAYERS || 4;
   const USER_SOCKETS = {};
   const GAME_STATES = {};
 
@@ -63,7 +63,8 @@ const socketInit = io => {
 
     models.game.collectVoteActions( game_id )
       .then( gamestate.performVoteActions.bind( gamestate ) ) // returns voting results
-      .then( results => { io.to( game_id ).emit( 'voting phase ended', results ) });
+      .then( results => { io.to( game_id ).emit( 'voting phase ended', results ) })
+      .then( _ => models.game.setFinished( game_id ) );
   }
 
   io.on('connection', socket => {

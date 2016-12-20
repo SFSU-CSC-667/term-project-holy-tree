@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 1;
+    this.MAX_PLAYERS = process.env.MAX_PLAYERS || 4;
   }
 
   findAvailable () {
@@ -85,6 +85,13 @@ class Game {
       "SELECT u.id, u.name, ug.role, ug.vote FROM user_game ug JOIN users u ON ug.user_id = u.id WHERE ug.game_id = $1",
       [ game_id ]
     );
+  }
+
+  setFinished ( game_id ) {
+    return this.db.none(
+      "UPDATE games SET finished = $1 WHERE id = $2;",
+      [ true, game_id ]
+    )
   }
 }
 
