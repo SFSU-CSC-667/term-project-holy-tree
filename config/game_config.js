@@ -22,7 +22,7 @@ const game_config =
         day_duration: 140
     },
     4: {
-        roles: ['werewolf', 'werewolf', 'seer', 'curator', 'robber'],
+        roles: ['werewolf', 'tanner', 'seer', 'curator', 'robber'],
         order: ['werewolf', 'seer', 'robber', 'curator'],
         night_duration: process.env.NIGHT_DURATION || 60,
         voting_duration: process.env.VOTING_DURATION || 60,
