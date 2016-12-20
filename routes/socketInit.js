@@ -1,12 +1,14 @@
 const models = require('../models/models');
 const game_config = require('../config/game_config');
 const gamestate = require('../models/gamestate');
+const user_socktes = require('../models/user_sockets');
 
 const socketInit = io => {
-
   const MAX_PLAYERS = process.env.MAX_PLAYERS || 4;
-  const USER_SOCKETS = {};
   const GAME_STATES = {};
+
+  const config = game_config[ MAX_PLAYERS ];
+  const user_sockets = new user_socktes();
 
   const getSubscriptionData = ( user_id, game_id ) => {
     let player_count, user;
@@ -19,20 +21,20 @@ const socketInit = io => {
 
   const notify_individial_user_night_time = ( user, game_id ) => {
     user.phase = 'NIGHT';
-    user.duration = game_config[MAX_PLAYERS]['night_duration'];
+    user.duration = config['night_duration'];
     console.log( 'NOTIFIYING SOCKET: ', `${game_id}_${user.id}` );
-    user_socket = USER_SOCKETS[`${game_id}_${user.id}`];
+    user_socket = user_sockets.getUserSocket( user.id, game_id );
 
     io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
   }
 
   const notify_vote_phase_starting = ( game_id ) => {
     setTimeout( () => {
-      io.to( game_id ).emit( 'voting phase starting', { duration: game_config[MAX_PLAYERS]['voting_duration'] });
+      io.to( game_id ).emit( 'voting phase starting', { duration: config['voting_duration'] });
       setTimeout( () => {
         performVoteActions( game_id );
-      }, ( game_config[MAX_PLAYERS]['voting_duration'] + 2 ) * 1000 );
-    }, ( game_config[MAX_PLAYERS]['day_duration'] + 2 ) * 1000 );
+      }, ( config['voting_duration'] + 2 ) * 1000 );
+    }, ( config['day_duration'] + 2 ) * 1000 );
   }
 
   const performNightActions = ( game_id ) => {
@@ -41,7 +43,6 @@ const socketInit = io => {
     models.game.collectNightActions( game_id )
       .then( gamestate.performNightActions.bind( gamestate ) )
       .then( user_roles => {
-        console.log('NIGHTACTIONSRETURNED: ' + JSON.stringify( user_roles ));
         user_roles.forEach( user_role => {
           notify_individial_user_daytime( user_role, game_id );
           models.game.updateUserGameRecord( user_role, game_id );
@@ -52,8 +53,8 @@ const socketInit = io => {
 
   const notify_individial_user_daytime = ( user, game_id ) => {
     user.phase = 'DAY';
-    user.duration = game_config[MAX_PLAYERS]['day_duration'];
-    user_socket = USER_SOCKETS[`${game_id}_${user.id}`];
+    user.duration = config['day_duration'];
+    user_socket = user_sockets.getUserSocket( user.id, game_id );
 
     io.sockets.connected[ user_socket ].emit( 'day phase starting', user );
   }
@@ -72,10 +73,7 @@ const socketInit = io => {
       const game_id = subscription.game_id;
       const user_id = subscription.user_id;
 
-      if ( !USER_SOCKETS[ `${game_id}_${user_id}` ] ) {
-        USER_SOCKETS[`${game_id}_${user_id}`] = socket.id;
-      }
-
+      user_sockets.setUserSocket( user_id, game_id, socket.id );
       socket.join( game_id );
 
       getSubscriptionData( user_id, game_id )
@@ -85,7 +83,6 @@ const socketInit = io => {
 
           /* LAUNCHES THE GAME */
           if( args.player_count == MAX_PLAYERS ) {
-            let config = game_config[ MAX_PLAYERS ];
             models.game.getUsers( game_id )
               .then( users => {
                 GAME_STATES[ game_id ] = new gamestate( config.roles, config.order, users );
