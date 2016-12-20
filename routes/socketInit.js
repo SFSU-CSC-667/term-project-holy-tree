@@ -4,7 +4,7 @@ const gamestate = require('../models/gamestate');
 
 const socketInit = io => {
 
-  const MAX_PLAYERS = 1;
+  const MAX_PLAYERS = 2;
   const USER_SOCKETS = {};
   const GAME_STATES = {};
 
