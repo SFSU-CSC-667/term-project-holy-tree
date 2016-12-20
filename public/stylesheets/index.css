@@ -54,31 +54,34 @@
   flex-direction: column;
   width:80%;
   height:60px;
-  background-size:cover;
+  background-size: 50px 50px;
   border:1px solid white;
 }
 
 .background-villager {
-  background:url('../images/villager.png') center center;
+  background:url('../images/villager.png') right center no-repeat;
 }
 
 .background-werewolf {
-  background:url('../images/werewolf.png') center center;
+  background:url('../images/werewolf.png') right center no-repeat;
 }
 .background-seer {
-  background:url('../images/seer.png') center center;
+  background:url('../images/seer.png') right center no-repeat;
 }
 .background-robber {
-  background:url('../images/robber.png') center center;
+  background:url('../images/robber.png') right center no-repeat;
 }
 .background-insomniac {
-  background:url('../images/insomniac.png') center center;
+  background:url('../images/insomniac.png') right center no-repeat;
 }
 .background-hunter {
-  background:url('../images/hunter.png') center center;
+  background:url('../images/hunter.png') right center no-repeat;
 }
 .background-curator {
-  background:url('../images/curator.png') center center;
+  background:url('../images/curator.png') right center no-repeat;
+}
+.background-tanner {
+  background:url('../images/tanner.png') right center no-repeat;
 }
 
 .join-game-page .mdl-card .role-description-flex .role h5,
