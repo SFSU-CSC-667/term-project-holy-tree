@@ -1,11 +1,9 @@
 /*     Brook's Additions          */
 
 .page-wrapper {
-  position: absolute;
-  bottom:0;
-  top:0;
-  left:0;
-  right:0;
+  background:url('../images/village_night.jpg') center center no-repeat;
+  background-size: cover; 
+  
 }
 
 .join-game-page {
