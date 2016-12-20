@@ -15,11 +15,6 @@ const artifacts =
         'name': 'Brand of the Villager',
         'description': 'You are now a Villager.'
     },
-    'mask':
-    {
-        'name': 'Mask of Muting',
-        'description': 'You find that you can no longer speak.'
-    },
     'void':
     {
         'name': 'Void of Nothingness',

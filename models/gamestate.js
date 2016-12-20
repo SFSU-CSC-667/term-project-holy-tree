@@ -73,14 +73,6 @@ class Gamestate {
         });
         break;
 
-      case 'mask':
-        this.updateUserAttributes( user.id, {
-          description: `The Curator gave you an artifact that has muted you.`,
-          artifact: artifact,
-          muted: true
-        });
-        break;
-
       case 'void':
         this.updateUserAttributes( user.id, {
           description: `The Curator gave you an artifact that fizzled a bit and seemed to have no effect.`,
