@@ -94,10 +94,10 @@
       $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
-    registerPlayerClickListener();
   });
 
   socket.on('night phase starting', function( data ) {
+      registerPlayerClickListener();
       $('#messages').append($('<li>').addClass('phase').html('NIGHT PHASE STARTING'));
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
@@ -113,10 +113,11 @@
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
       if ( role_info.item ) { $('.player-card .item').text(`ITEM: ${role_info.item}`); }
+      if ( role_info.muted ) { $('#message-input').prop('disabled', true); }
       displayCountdown( data.duration );
       registerDayPhaseTimeout( data.duration );
   });
-  
+
   socket.on('voting phase starting', function( phase_data ) {
     $('.player-card').on('click', function () {
         $('.player-card .name').css('color','white');
