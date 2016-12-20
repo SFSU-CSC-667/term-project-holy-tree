@@ -1,7 +1,7 @@
 const models = require('../models/models');
 const game_config = require('../config/game_config');
 const gamestate = require('../models/gamestate');
-const user_socktes = require('../models/user_sockets');
+const user_sockets = require('../models/user_sockets');
 
 const socketInit = io => {
   const MAX_PLAYERS = process.env.MAX_PLAYERS || 4;

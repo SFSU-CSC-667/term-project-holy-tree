@@ -1,4 +1,4 @@
-class UserSocktes {
+class UserSockets {
   constructor () {
     this.sockets = {};
   }
@@ -14,4 +14,4 @@ class UserSocktes {
   }
 }
 
-module.exports = UserSocktes;
+module.exports = UserSockets;
