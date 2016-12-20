@@ -86,6 +86,13 @@ class Game {
       [ game_id ]
     );
   }
+
+  setFinished ( game_id ) {
+    return this.db.none(
+      "UPDATE games SET finished = $1 WHERE id = $2;",
+      [ true, game_id ]
+    )
+  }
 }
 
 module.exports = Game;
