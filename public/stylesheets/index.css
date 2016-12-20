@@ -1,75 +1,14 @@
-.welcome {
-  display: flex;
-  height: 70px;
-  font-family: 'Mirza', cursive;
-  font-size: 70px;
-  color: rgb(103,101,143);
-  align-items: center;
-  justify-content: space-around;
-}
-
-.each-card {
-  height: 525px;
-  width: 700px; 
-  border: 1px ridge;
-  box-shadow: 2px 2px 1px rgba(0,0,0,0.2);
-}
-
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding-bottom: 20px;
-}
-
-
-.card-title {
-  display: flex;
-  justify-content: center;
-  padding-bottom: -25px;
-
-}
-
-.center {
-  margin-top: 50%;
-}
-
-.description {
-  display: flex;
-  justify-content: space-around;
-}
-
-.description-text {
-  display: flex;
-  justify-content: space-around;
-  padding-top: 50px;
-  width: 450px;
-  font: #000;
-}
-
-.role-photos {
-  width: 50px;
-  height: 50px;
-
-}
-
-
-.mdl-card__role-name {
-  width: 150px;
-  display: flex;
-  justify-content: center;
-}
-
-.join-game {
-  display: flex;
-  color: blue;
-  justify-content: center;
-  align-items: flex-end;
-  justify-content: space-around;
-}
-
-
 /*     Brook's Additions          */
+
+.page-wrapper {
+  position: absolute;
+  bottom:0;
+  top:0;
+  left:0;
+  right:0;
+  background:url('../images/village_night.jpg') center center no-repeat;
+  background-size: cover;
+}
 
 .join-game-page {
   display: flex;
