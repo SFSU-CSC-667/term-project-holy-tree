@@ -1,14 +1,14 @@
 const models = require('../models/models');
 const game_config = require('../config/game_config');
 const gamestate = require('../models/gamestate');
-const user_sockets = require('../models/user_sockets');
+const UserSockets = require('../models/user_sockets');
 
 const socketInit = io => {
   const MAX_PLAYERS = process.env.MAX_PLAYERS || 4;
   const GAME_STATES = {};
 
   const config = game_config[ MAX_PLAYERS ];
-  const user_sockets = new user_socktes();
+  const user_sockets = new UserSockets();
 
   const getSubscriptionData = ( user_id, game_id ) => {
     let player_count, user;
