@@ -156,7 +156,7 @@ class Gamestate {
       underscore.extend(array[index], {'votes_against': votes_for_user });
     });
 
-    votes = votes.sort( (a,b) => a.votes_against > b.votes_against );
+    votes = votes.sort( (a,b) => a.votes_against < b.votes_against );
 
     let dead_players = votes.filter( vote => vote.votes_against == votes[0].votes_against );
 
