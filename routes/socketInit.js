@@ -22,7 +22,6 @@ const socketInit = io => {
   const notify_individial_user_night_time = ( user, game_id ) => {
     user.phase = 'NIGHT';
     user.duration = config['night_duration'];
-    console.log( 'NOTIFIYING SOCKET: ', `${game_id}_${user.id}` );
     user_socket = user_sockets.getUserSocket( user.id, game_id );
 
     io.sockets.connected[ user_socket ].emit( 'night phase starting', user );
