@@ -147,6 +147,7 @@
 
 .player-game-info {
     padding:10px 20px;
+    overflow-y: scroll;
 }
 
 .player-game-info .role {
