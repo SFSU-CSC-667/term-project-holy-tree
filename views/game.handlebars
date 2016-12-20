@@ -94,10 +94,10 @@
       $('.players').append(Handlebars.templates.player_card( data ));
     }
     $('#game-player-count').text(data.player_count);
-    registerPlayerClickListener();
   });
 
   socket.on('night phase starting', function( data ) {
+      registerPlayerClickListener();
       $('#messages').append($('<li>').addClass('phase').html('NIGHT PHASE STARTING'));
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
