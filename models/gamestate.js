@@ -147,24 +147,18 @@ class Gamestate {
 
   }
 
-  // Array [{userid, role, vote}, {userid, role, vote}, ] 
+  // Array [{userid, role, vote}, {userid, role, vote}, ]
   performVoteActions ( votes ) {
 
     // Yes this is n^2, but c'mon - we only have a few players
-    votes.forEach( (vote, index, array) => { 
+    votes.forEach( (vote, index, array) => {
       let votes_for_user = array.filter( i => i.vote == vote.id ).length;
       underscore.extend(array[index], {'votes_against': votes_for_user });
     });
 
-    console.log('167 ' + JSON.stringify(votes));
-
     votes = votes.sort( (a,b) => a.votes_for > b.votes_for );
 
-    console.log('171 ' + JSON.stringify(votes));
-
     let dead_players = votes.filter( vote => vote.votes_against == votes[0].votes_against );
-    
-    console.log(`175 DEAD: ` + JSON.stringify(dead_players));
 
     /* SPECIAL HUNTER ACTION */
     let hunter_in_dead = dead_players.filter ( dead => dead.role == 'hunter' );
