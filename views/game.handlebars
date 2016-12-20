@@ -96,17 +96,19 @@
     $('#game-player-count').text(data.player_count);
     registerPlayerClickListener();
   });
+
   socket.on('night phase starting', function( data ) {
-      console.log("NIGHT PHASE STARTING: ", data);
+      $('#messages').append($('<li>').addClass('phase').html('NIGHT PHASE STARTING'));
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
       displayCountdown( data.duration );
       registerNightPhaseTimeout( data.duration );
   });
+
   socket.on('day phase starting', function( data ) {
-      console.log("DAY PHASE STARTING: ", data);
-      $('.player-card').removeClass('selected').prop('onclick',null);
+      $('.player-card .name').css('color','white');
+      $('.player-card').prop('onclick',null);
       $('.player-game-info').html('');
       $('.player-game-info').append(Handlebars.templates.player_game_info( data ));
       role_info = data;
@@ -116,7 +118,6 @@
   });
   
   socket.on('voting phase starting', function( phase_data ) {
-    console.log("VOTING PHASE STARTING: ", phase_data);
     $('.player-card').on('click', function () {
         $('.player-card .name').css('color','white');
         $(this).find('.name').css('color','red');

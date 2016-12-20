@@ -4,7 +4,7 @@ class Game {
 
   constructor ( db ) {
     this.db = db;
-    this.MAX_PLAYERS = 4;
+    this.MAX_PLAYERS = process.env.MAX_PLAYERS || 4;
   }
 
   findAvailable () {
