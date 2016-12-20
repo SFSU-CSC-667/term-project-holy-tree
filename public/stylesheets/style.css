@@ -1,4 +1,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    background:url('../images/village_night.jpg') center center no-repeat;
+    background-size: cover; 
+}
+
 body { font: 13px Helvetica, Arial; height:100%;}
 
 .container-flex {
@@ -11,8 +16,6 @@ body { font: 13px Helvetica, Arial; height:100%;}
     display: -webkit-flex;
 	display: flex; 
     justify-content: center;
-    background:url('../images/village_night.jpg') center center no-repeat;
-    background-size: cover;
 }
 
 .row {
